@@ -1,3 +1,5 @@
+// @ts-ignore
+
 import axios from "axios";
 import { createHmac } from "crypto";
 import { stringify } from "querystring";

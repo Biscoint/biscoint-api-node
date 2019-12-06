@@ -1,4 +1,3 @@
-// tslint:disable:interface-name
 declare module "biscoint-api-node" {
   export default function(options: {
     apiKey: string;
