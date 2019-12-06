@@ -6,6 +6,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "big-number": "^2.0.0",
+    "bignumber.js": "^9.0.0",
     "esm": "^3.2.25",
     "joi": "^14.3.1"
   }

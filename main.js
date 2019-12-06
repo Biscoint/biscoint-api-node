@@ -1,10 +1,9 @@
 // @ts-ignore
-
-import axios from "axios";
-import { createHmac } from "crypto";
-import { stringify } from "querystring";
-import joi from "joi";
-import BigNumber from "bignumber.js";
+const axios = require("axios");
+const createHmac = require("crypto").createHash;
+const stringify = require("querystring").stringify;
+const joi = require("joi");
+const BigNumber = require("bignumber.js");
 
 BigNumber.config({
   FORMAT: {
