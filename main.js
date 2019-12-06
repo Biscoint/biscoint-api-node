@@ -2,6 +2,13 @@ import axios from "axios";
 import { createHmac } from "crypto";
 import { stringify } from "querystring";
 import joi from "joi";
+import BigNumber from "bignumber.js";
+
+BigNumber.config({
+  FORMAT: {
+    groupSeparator: ""
+  }
+});
 
 const constructorSchema = joi.object({
   apiKey: joi.string().required(),
@@ -9,7 +16,10 @@ const constructorSchema = joi.object({
 });
 
 const offerSchema = joi.object({
-  amount: joi.string().required(),
+  amount: joi
+    .number()
+    .precision(8)
+    .required(),
   op: joi
     .string()
     .valid("buy", "sell")
@@ -28,11 +38,12 @@ const confirmOfferSchema = joi.object({
  * @typedef {Object} ConstructorParams
  * @property {string} apiKey - Your Biscoint API Key
  * @property {string} apiSecret - Your Biscoint API Secret
+ * @property {string} apiUrl - Biscoints API URL
  */
 
 /**
  * @typedef {Object} OfferParams
- * @property {string} amount - Amount that you want to trade.
+ * @property {number} amount - Amount that you want to trade.
  * @property {('BTC'|'BRL')} base - Reference currency symbol.
  * @property {('buy'|'sell')} op - The operation that you want
  */
@@ -134,7 +145,7 @@ export default class Biscoint {
     return _call(
       {
         request: "/v1/offer",
-        amount: args.amount,
+        amount: new BigNumber(args.amount).toFormat(8),
         op: args.op,
         base: args.base
       },
