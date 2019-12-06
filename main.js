@@ -15,6 +15,21 @@ const constructorSchema = joi.object({
   apiSecret: joi.string().required()
 });
 
+const tickerSchema = joi.object({
+  amount: joi
+    .number()
+    .precision(8)
+    .required(),
+  base: joi
+    .string()
+    .valid("BTC")
+    .required(),
+  quote: joi
+    .string()
+    .valid("BRL")
+    .required()
+});
+
 const offerSchema = joi.object({
   amount: joi
     .number()
@@ -39,6 +54,13 @@ const confirmOfferSchema = joi.object({
  * @property {string} apiKey - Your Biscoint API Key
  * @property {string} apiSecret - Your Biscoint API Secret
  * @property {string} apiUrl - Biscoints API URL
+ */
+
+/**
+ * @typedef {Object} TickerParams
+ * @property {number} [amount=1000] - Amount that you want to verify.
+ * @property {('BTC')} base - Reference base symbol.
+ * @property {('BRL')} quote - Reference quote symbol.
  */
 
 /**
@@ -116,8 +138,30 @@ export default class Biscoint {
    * @memberof Biscoint
    */
   constructor(args) {
-    constructorSchema.valid(args);
+    constructorSchema.validate(args);
     Object.assign(this, args);
+    this.apiUrl = "https://biscoint.io/";
+  }
+
+  /**
+   * @memberof Biscoint
+   * @public
+   * @param {TickerParams} args
+   * @return {Object}
+   */
+  async ticker(args) {
+    tickerSchema.validate(args);
+    return _call(
+      {
+        request: "/api/ticker",
+        base: "BTC",
+        quote: "BRL",
+        amount: new BigNumber(args.amount || 1000).toFormat(8)
+      },
+      this.apiUrl,
+      this.apiKey,
+      this.apiSecret
+    );
   }
 
   /**
@@ -127,7 +171,7 @@ export default class Biscoint {
    */
   async balance() {
     return _call(
-      { request: "/v1/balance" },
+      { request: "/apiTrade/v1/balance" },
       this.apiUrl,
       this.apiKey,
       this.apiSecret
@@ -141,10 +185,10 @@ export default class Biscoint {
    * @return {Offer} - Offer that you ask
    */
   async offer(args) {
-    offerSchema.valid(args);
+    offerSchema.validate(args);
     return _call(
       {
-        request: "/v1/offer",
+        request: "/apiTrade/v1/offer",
         amount: new BigNumber(args.amount).toFormat(8),
         op: args.op,
         base: args.base
@@ -161,10 +205,10 @@ export default class Biscoint {
    * @param {ConfirmOfferParams} args - Confirm Offer params
    */
   async confirmOffer(args) {
-    confirmOfferSchema.valid(args);
+    confirmOfferSchema.validate(args);
     return _call(
       {
-        request: "/v1/confirmOffer",
+        request: "/apiTrade/v1/confirmOffer",
         offerId: args.offerId
       },
       this.apiUrl,

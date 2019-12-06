@@ -1,8 +1,12 @@
-# Biscoint API Concept
+# Biscoint API Node
 
-## Base URL
+## Install with NPM
 ```
-  https://biscoint.io/
+  npm i biscoint-api-node
+```
+## Install with Yarn
+```
+  yarn add biscoint-api-node
 ```
 
 # Public methods

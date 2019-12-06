@@ -15,16 +15,6 @@ big-number@^2.0.0:
   resolved "https://registry.yarnpkg.com/big-number/-/big-number-2.0.0.tgz#98548eda9393b445791670a213aed6f6dcd66ee3"
   integrity sha512-C67Su0g+XsmXADX/UM9L/+xSbqqwq0D/qGJs2ky6Noy2FDuCZnC38ZSXODiaBvqWma2VYRZEXgm4H74PS6tCDg==
 
-bignumber.js@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.0.0.tgz#805880f84a329b5eac6e7cb6f8274b6d82bdf075"
-  integrity sha512-t/OYhhJ2SD+YGBQcjY8GzzDHEk9f3nerxjtfa6tlMXfe7frs/WozhvCNoGvpM0P3bNf3Gq5ZRMlGr5f3r4/N8A==
-
-bignumber@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/bignumber/-/bignumber-1.1.0.tgz#e6ab0a743da5f3ea018e5c17597d121f7868c159"
-  integrity sha1-5qsKdD2l8+oBjlwXWX0SH3howVk=
-
 debug@=3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
