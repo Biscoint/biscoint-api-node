@@ -1,13 +1,11 @@
 {
   "name": "biscoint-api-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.19.0",
     "big-number": "^2.0.0",
-    "bignumber": "^1.1.0",
-    "bignumber.js": "^9.0.0",
     "esm": "^3.2.25",
     "joi": "^14.3.1"
   }
