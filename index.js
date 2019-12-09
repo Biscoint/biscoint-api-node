@@ -152,7 +152,7 @@ class Biscoint {
    * @param {TickerParams} args
    * @return {Object}
    */
-  async ticker(args) {
+  async ticker(args = {}) {
     tickerSchema.validate(args);
     return _call(
       {
