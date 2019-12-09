@@ -1,51 +1,32 @@
-declare module "biscoint-api-node" {
-  export default function(options: {
+export = Biscoint;
+
+declare class Biscoint {
+  constructor(options?: Biscoint.constructorOptions);
+  ticker(options?: {
+    base: "BTC";
+    quote: "BRL";
+    amount: 1000;
+  }): Promise<Biscoint.tickerResult>;
+  balance(): Promise<Biscoint.balanceResult>;
+  offer(options: {
+    amount: Number;
+    op: Biscoint.op;
+    base: Biscoint.base;
+  }): Promise<Biscoint.offerResult>;
+  confirmOffer(options: { offerId: String }): Promise<Biscoint.confirmOfferResult>;
+}
+
+declare namespace Biscoint {
+  type base = "BTC" | "BRL";
+  type quote = "BTC" | "BRL";
+  type op = "buy" | "sell";
+
+  interface constructorOptions {
     apiKey: string;
     apiSecret: string;
-  }): Biscoint;
-
-  export type base = "BTC" | "BRL";
-  export type quote = "BTC" | "BRL";
-  export type op = "buy" | "sell";
-
-  export interface Account {
-    balances: AssetBalance[];
-    buyerCommission: number;
-    canDeposit: boolean;
-    canTrade: boolean;
-    canWithdraw: boolean;
-    makerCommission: number;
-    sellerCommission: number;
-    takerCommission: number;
-    updateTime: number;
-  }
-  export interface TradeFee {
-    symbol: string;
-    maker: number;
-    taker: number;
-  }
-  export interface TradeFeeResult {
-    tradeFee: TradeFee[];
-    success: boolean;
-  }
-  export interface AggregatedTrade {
-    aggId: number;
-    price: string;
-    quantity: string;
-    firstId: number;
-    lastId: number;
-    timestamp: number;
-    isBuyerMaker: boolean;
-    wasBestPrice: boolean;
   }
 
-  export interface AssetBalance {
-    asset: string;
-    free: string;
-    locked: string;
-  }
-
-  export interface tickerResult {
+  interface tickerResult {
     base: base;
     quote: quote;
     vol: Number;
@@ -61,12 +42,12 @@ declare module "biscoint-api-node" {
     timestamp: String;
   }
 
-  export interface balanceResult {
+  interface balanceResult {
     BTC: Number;
     BRL: Number;
   }
 
-  export interface offerResult {
+  interface offerResult {
     base: base;
     quote: quote;
     amount: Number;
@@ -77,7 +58,7 @@ declare module "biscoint-api-node" {
     timestamp: String;
   }
 
-  export interface confirmOfferResult {
+  interface confirmOfferResult {
     confirmedAt: String;
     baseAmount: Number;
     quoteAmount: Number;
@@ -85,20 +66,6 @@ declare module "biscoint-api-node" {
     offerId: String;
     orderPrice: Number;
     op: op;
-  }
 
-  export interface Biscoint {
-    ticker(options: {
-      base: "BTC";
-      quote: "BRL";
-      amount?: Number;
-    }): Promise<tickerResult>;
-    balance(): Promise<balanceResult>;
-    offer(options: {
-      amount: Number;
-      op: op;
-      base: base;
-    }): Promise<offerResult>;
-    confirmOffer(options: { offerId: String }): Promise<confirmOfferResult>;
   }
 }

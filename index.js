@@ -13,7 +13,8 @@ BigNumber.config({
 
 const constructorSchema = joi.object({
   apiKey: joi.string().required(),
-  apiSecret: joi.string().required()
+  apiSecret: joi.string().required(),
+  apiUrl: joi.string().optional()
 });
 
 const tickerSchema = joi.object({
@@ -111,7 +112,7 @@ async function _call(args, apiUrl, apiKey, apiSecret, method = "GET") {
     data: args
   };
   try {
-    return (await axios(config)).data.data;
+    return (await axios(config)).data;
   } catch (error) {
     if (error.response) {
       if (error.response.data.message) throw error.response.data.message;
@@ -140,8 +141,9 @@ class Biscoint {
    */
   constructor(args) {
     constructorSchema.validate(args);
-    Object.assign(this, args);
-    this.apiUrl = "https://biscoint.io/";
+    this.apiKey = args.apiKey;
+    this.apiSecret = args.apiSecret;
+    this.apiUrl = args.apiUrl || "https://biscoint.io/";
   }
 
   /**
@@ -171,12 +173,14 @@ class Biscoint {
    * @return {Object}
    */
   async balance() {
-    return _call(
-      { request: "/apiTrade/v1/balance" },
-      this.apiUrl,
-      this.apiKey,
-      this.apiSecret
-    );
+    return (
+      await _call(
+        { request: "/apiTrade/v1/balance" },
+        this.apiUrl,
+        this.apiKey,
+        this.apiSecret
+      )
+    ).data;
   }
 
   /**
@@ -187,17 +191,19 @@ class Biscoint {
    */
   async offer(args) {
     offerSchema.validate(args);
-    return _call(
-      {
-        request: "/apiTrade/v1/offer",
-        amount: new BigNumber(args.amount).toFormat(8),
-        op: args.op,
-        base: args.base
-      },
-      this.apiUrl,
-      this.apiKey,
-      this.apiSecret
-    );
+    return (
+      await _call(
+        {
+          request: "/apiTrade/v1/offer",
+          amount: new BigNumber(args.amount).toFormat(8),
+          op: args.op,
+          base: args.base
+        },
+        this.apiUrl,
+        this.apiKey,
+        this.apiSecret
+      )
+    ).data;
   }
 
   /**
@@ -207,16 +213,18 @@ class Biscoint {
    */
   async confirmOffer(args) {
     confirmOfferSchema.validate(args);
-    return _call(
-      {
-        request: "/apiTrade/v1/confirmOffer",
-        offerId: args.offerId
-      },
-      this.apiUrl,
-      this.apiKey,
-      this.apiSecret,
-      "POST"
-    );
+    return (
+      await _call(
+        {
+          request: "/apiTrade/v1/confirmOffer",
+          offerId: args.offerId
+        },
+        this.apiUrl,
+        this.apiKey,
+        this.apiSecret,
+        "POST"
+      )
+    ).data;
   }
 }
 
