@@ -12,9 +12,12 @@ BigNumber.config({
 });
 
 const constructorSchema = joi.object({
-  apiKey: joi.string().required(),
-  apiSecret: joi.string().required(),
-  apiUrl: joi.string().optional()
+  apiKey: joi.string().default(""),
+  apiSecret: joi.string().default(""),
+  apiUrl: joi
+    .string()
+    .optional()
+    .default("https://biscoint.io/")
 });
 
 const tickerSchema = joi.object({
@@ -139,11 +142,11 @@ class Biscoint {
   /**
    * @memberof Biscoint
    */
-  constructor(args) {
+  constructor(args = {}) {
     constructorSchema.validate(args);
     this.apiKey = args.apiKey;
     this.apiSecret = args.apiSecret;
-    this.apiUrl = args.apiUrl || "https://biscoint.io/";
+    this.apiUrl = args.apiUrl;
   }
 
   /**
