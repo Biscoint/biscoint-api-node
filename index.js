@@ -7,6 +7,7 @@ const BigNumber = require("bignumber.js");
 
 BigNumber.config({
   FORMAT: {
+    decimalSeparator: ".",
     groupSeparator: ""
   }
 });
@@ -99,10 +100,10 @@ const confirmOfferSchema = joi.object({
  * @property {string} isQuote
  */
 
- /**
- * @param {Object} args - Arguments to sign
- * @return {string} - Base64 hash
- */
+/**
+* @param {Object} args - Arguments to sign
+* @return {string} - Base64 hash
+*/
 function _sign(args, apiSecret) {
   return createHmac("sha256", apiSecret)
     .update(Buffer.from(JSON.stringify(args)).toString("base64"))
