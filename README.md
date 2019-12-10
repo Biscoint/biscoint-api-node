@@ -39,22 +39,22 @@ Get Biscoint ticker
 bc.ticker();
 ```
 Returns
-```JSON
+```JavaScript
 {
-    "base": "BTC",
-    "quote": "BRL",
-    "vol": 2.706313,
-    "low": 33284,
-    "high": 34587,
-    "last": 34083.4,
-    "ask": 34084.08,
-    "askQuoteAmountRef": 1000,
-    "askBaseAmountRef": 0.02933921,
-    "bid": 33840.8,
-    "bidQuoteAmountRef": 1000,
-    "bidBaseAmountRef": 0.02955013,
-    "timestamp": "2019-09-27T17:46:38.453Z",
-  }
+  base: 'BTC',
+  quote: 'BRL',
+  vol: 0.00155952,
+  low: 32061.15,
+  high: 32061.15,
+  last: 32061.15,
+  ask: 32088.7,
+  askQuoteAmountRef: 1000,
+  askBaseAmountRef: 0.03116362,
+  bid: 29961.9,
+  bidQuoteAmountRef: 1000,
+  bidBaseAmountRef: 0.03337572,
+  timestamp: '2019-12-10T20:22:29.172Z'
+}
 ```
 
 ## Private methods
@@ -71,10 +71,10 @@ bc.balance();
 
 Returns
 
-```JSON
+```JavaScript
 {
-  "brl": 5000.00,
-  "btc": 0.001
+  brl: 5000.00,
+  btc: 0.001
 }
 ```
 
@@ -90,16 +90,23 @@ bc.offer({amount: 0.001, base: "BTC", op: "buy"});
 
 Returns
 
-```JSON
+```JavaScript
 {
-  "base": "BTC",
-  "quote": "BRL",
-  "amount": 0.001,
-  "quoteAmount": 51,
-  "exchange": "Foxbit",
-  "offerId": "5d9s8w6d12",
-  "expires": "2019-09-27T17:46:43.453Z",
-  "timestamp": "2019-09-27T17:46:38.453Z",
+  baseAmount: '0.00155952',
+  quoteAmount: '50.00',
+  efPrice: '32061.15',
+  exchangeFees: '0.00',
+  exchangeId: 'brasilbitcoin',
+  orderPrice: '30378.90',
+  offerId: 'YMrgz8FoWNtr4r6iA',
+  userId: 'uxKCdt5Qd7Nt9eYSp',
+  base: 'BTC',
+  quote: 'BRL',
+  op: 'buy',
+  createdAt: '2019-12-10T20:21:32.440Z',
+  expiresAt: '2019-12-10T20:21:47.440Z',
+  isFinal: false,
+  isQuote: true
 }
 ```
 
@@ -115,6 +122,14 @@ bc.confirmOffer({ offerId: "5d9s8w6d12"});
 
 Returns
 
-```JSON
-
+```JavaScript
+{
+  confirmedAt: '2019-12-10T20:21:32.629Z',
+  baseAmount: '0.00155952',
+  quoteAmount: '50.00',
+  efPrice: '32061.15',
+  offerId: 'YMrgz8FoWNtr4r6iA',
+  orderPrice: '30378.90',
+  op: 'buy'
+}
 ```
