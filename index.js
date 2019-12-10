@@ -1,6 +1,6 @@
 // @ts-ignore
 const axios = require("axios");
-const createHmac = require("crypto").createHash;
+const createHmac = require("crypto").createHmac;
 const stringify = require("querystring").stringify;
 const joi = require("joi");
 const BigNumber = require("bignumber.js");
@@ -99,6 +99,16 @@ const confirmOfferSchema = joi.object({
  * @property {string} isQuote
  */
 
+ /**
+ * @param {Object} args - Arguments to sign
+ * @return {string} - Base64 hash
+ */
+function _sign(args, apiSecret) {
+  return createHmac("sha256", apiSecret)
+    .update(Buffer.from(JSON.stringify(args)).toString("base64"))
+    .digest("hex");
+}
+
 /**
  * @param {Object} args
  * @param {('GET'|'POST')} [method=GET] GET by default
@@ -126,16 +136,6 @@ async function _call(args, apiUrl, apiKey, apiSecret, method = "GET") {
 }
 
 /**
- * @param {Object} args - Arguments to sign
- * @return {string} - Base64 hash
- */
-function _sign(args, apiSecret) {
-  return createHmac("sha256", apiSecret)
-    .update(Buffer.from(JSON.stringify(args)).toString("base64"))
-    .digest("hex");
-}
-
-/**
  * Biscoint wrapper
  */
 class Biscoint {
@@ -143,10 +143,7 @@ class Biscoint {
    * @memberof Biscoint
    */
   constructor(args = {}) {
-    constructorSchema.validate(args);
-    this.apiKey = args.apiKey;
-    this.apiSecret = args.apiSecret;
-    this.apiUrl = args.apiUrl;
+    Object.assign(this, constructorSchema.validate(args).value);
   }
 
   /**
