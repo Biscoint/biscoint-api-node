@@ -133,3 +133,28 @@ Returns
   op: 'buy'
 }
 ```
+
+### Get last trafes
+
+---
+
+Returns last 20 trades
+
+```JavaScript
+bc.trades();
+```
+
+Returns
+
+```JavaScript
+[
+  {
+    date: 1576522769,
+    amount: '0.01718435',
+    total: '500.00',
+    op: 'sell'
+  },
+  ...
+]
+
+```
