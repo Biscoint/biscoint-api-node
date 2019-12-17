@@ -187,6 +187,22 @@ class Biscoint {
   /**
    * @memberof Biscoint
    * @public
+   * @return {Object}
+   */
+  async trades() {
+    return (
+      await _call(
+        { request: "/apiTrade/v1/trades" },
+        this.apiUrl,
+        this.apiKey,
+        this.apiSecret
+      )
+    ).data;
+  }
+
+  /**
+   * @memberof Biscoint
+   * @public
    * @param {OfferParams} args - Offer params
    * @return {Offer} - Offer that you ask
    */

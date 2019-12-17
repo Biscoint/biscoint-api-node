@@ -8,6 +8,7 @@ declare class Biscoint {
     amount: 1000;
   }): Promise<Biscoint.tickerResult>;
   balance(): Promise<Biscoint.balanceResult>;
+  trades(): Promise<Biscoint.tradesResult[]>;
   offer(options: {
     amount: Number;
     op: Biscoint.op;
@@ -45,6 +46,13 @@ declare namespace Biscoint {
   interface balanceResult {
     BTC: Number;
     BRL: Number;
+  }
+
+  interface tradesResult {
+    date: Number;
+    amount: String;
+    total: String;
+    op: op
   }
 
   interface offerResult {
