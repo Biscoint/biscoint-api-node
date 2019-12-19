@@ -10,8 +10,11 @@ declare class Biscoint {
   balance(): Promise<Biscoint.balanceResult>;
   trades(): Promise<Biscoint.tradesResult[]>;
   offer(options: {
+    /** value that you want to trade */
     amount: Number;
+    /** operation */
     op: Biscoint.op;
+    /** currency base */
     base: Biscoint.base;
   }): Promise<Biscoint.offerResult>;
   confirmOffer(options: { offerId: String }): Promise<Biscoint.confirmOfferResult>;

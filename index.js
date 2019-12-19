@@ -18,7 +18,7 @@ const constructorSchema = joi.object({
   apiUrl: joi
     .string()
     .optional()
-    .default("https://biscoint.io/")
+    .default("https://api.biscoint.io")
 });
 
 const tickerSchema = joi.object({
@@ -155,9 +155,9 @@ class Biscoint {
    */
   async ticker(args = {}) {
     tickerSchema.validate(args);
-    return _call(
+    return (_call(
       {
-        request: "/api/ticker",
+        request: "/v1/ticker",
         base: "BTC",
         quote: "BRL",
         amount: new BigNumber(args.amount || 1000).toFormat(8)
@@ -165,7 +165,7 @@ class Biscoint {
       this.apiUrl,
       this.apiKey,
       this.apiSecret
-    );
+    )).data;
   }
 
   /**
@@ -176,7 +176,7 @@ class Biscoint {
   async balance() {
     return (
       await _call(
-        { request: "/apiTrade/v1/balance" },
+        { request: "/v1/balance" },
         this.apiUrl,
         this.apiKey,
         this.apiSecret
@@ -192,7 +192,7 @@ class Biscoint {
   async trades() {
     return (
       await _call(
-        { request: "/apiTrade/v1/trades" },
+        { request: "/v1/trades" },
         this.apiUrl,
         this.apiKey,
         this.apiSecret
@@ -211,7 +211,7 @@ class Biscoint {
     return (
       await _call(
         {
-          request: "/apiTrade/v1/offer",
+          request: "/v1/offer",
           amount: new BigNumber(args.amount).toFormat(8),
           op: args.op,
           base: args.base
@@ -233,7 +233,7 @@ class Biscoint {
     return (
       await _call(
         {
-          request: "/apiTrade/v1/confirmOffer",
+          request: "/v1/confirmOffer",
           offerId: args.offerId
         },
         this.apiUrl,
