@@ -1,8 +1,8 @@
 const Biscoint = require("./index");
 
 const bc = new Biscoint({
-    apiKey: "e6534483b0434a42935853c59b84e4b95874bf8f5b7f4477a4cc12602fb2bba8",
-    apiSecret: "c03922759353cb86305f26a8950654ab78db4adf2c4c31d9503905820448a679",
+    apiKey: "df417ea7ead7e7ae4350d9c0d182cbbf26a323302bc45750d53b075f721d2899",
+    apiSecret: "4a867f3413681fee68b744b2ada1d6ba46273914c7f86a77b96e7f226fc14311",
     apiUrl: "http://localhost:4000"
 });
 

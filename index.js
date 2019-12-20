@@ -233,7 +233,7 @@ class Biscoint {
     return (
       await _call(
         {
-          request: "/v1/confirmOffer",
+          request: "/v1/offer",
           offerId: args.offerId
         },
         this.apiUrl,
