@@ -101,9 +101,9 @@ const confirmOfferSchema = joi.object({
  */
 
 /**
-* @param {Object} args - Arguments to sign
-* @return {string} - Base64 hash
-*/
+ * @param {Object} args - Arguments to sign
+ * @return {string} - Base64 hash
+ */
 function _sign(args, apiSecret) {
   return createHmac("sha256", apiSecret)
     .update(Buffer.from(JSON.stringify(args)).toString("base64"))
@@ -155,7 +155,7 @@ class Biscoint {
    */
   async ticker(args = {}) {
     tickerSchema.validate(args);
-    return (_call(
+    return _call(
       {
         request: "/v1/ticker",
         base: "BTC",
@@ -165,7 +165,7 @@ class Biscoint {
       this.apiUrl,
       this.apiKey,
       this.apiSecret
-    )).data;
+    ).data;
   }
 
   /**
@@ -189,10 +189,10 @@ class Biscoint {
    * @public
    * @return {Object}
    */
-  async trades() {
+  async trades(args = {}) {
     return (
       await _call(
-        { request: "/v1/trades" },
+        { request: "/v1/trades", op: args.op || 'both' },
         this.apiUrl,
         this.apiKey,
         this.apiSecret
