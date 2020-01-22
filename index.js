@@ -18,7 +18,7 @@ const constructorSchema = joi.object({
   apiUrl: joi
     .string()
     .optional()
-    .default("https://api.biscoint.io")
+    .default("https://api.biscoint.io/")
 });
 
 const tickerSchema = joi.object({
@@ -45,10 +45,7 @@ const offerSchema = joi.object({
     .string()
     .valid("buy", "sell")
     .required(),
-  base: joi
-    .string()
-    .valid("BTC", "BRL")
-    .required()
+  isQuote: joi.boolean().required()
 });
 
 const confirmOfferSchema = joi.object({
@@ -72,7 +69,7 @@ const confirmOfferSchema = joi.object({
 /**
  * @typedef {Object} OfferParams
  * @property {number} amount - Amount that you want to trade.
- * @property {('BTC'|'BRL')} base - Reference currency symbol.
+ * @property {boolean} isQuote - Reference currency symbol.
  * @property {('buy'|'sell')} op - The operation that you want
  */
 
@@ -105,8 +102,10 @@ const confirmOfferSchema = joi.object({
  * @return {string} - Base64 hash
  */
 function _sign(args, apiSecret) {
+  const jsonString = JSON.stringify(args, Object.keys(args).sort());
+  const hashBuffer = Buffer.from(jsonString).toString("base64");
   return createHmac("sha256", apiSecret)
-    .update(Buffer.from(JSON.stringify(args)).toString("base64"))
+    .update(hashBuffer)
     .digest("hex");
 }
 
@@ -155,16 +154,54 @@ class Biscoint {
    */
   async ticker(args = {}) {
     tickerSchema.validate(args);
-    return _call(
-      {
-        request: "/v1/ticker",
-        base: "BTC",
-        quote: "BRL",
-        amount: new BigNumber(args.amount || 1000).toFormat(8)
-      },
-      this.apiUrl,
-      this.apiKey,
-      this.apiSecret
+    return (
+      await _call(
+        {
+          request: "v1/ticker",
+          base: "BTC",
+          quote: "BRL",
+          amount: new BigNumber(args.amount || 1000).toFormat(8)
+        },
+        this.apiUrl,
+        this.apiKey,
+        this.apiSecret
+      )
+    ).data;
+  }
+
+  /**
+   * @memberof Biscoint
+   * @public
+   * @return {Object}
+   */
+  async withdrawFees(args = {}) {
+    return (
+      await _call(
+        {
+          request: "v1/withdrawFees"
+        },
+        this.apiUrl,
+        this.apiKey,
+        this.apiSecret
+      )
+    ).data;
+  }
+
+  /**
+   * @memberof Biscoint
+   * @public
+   * @return {Object}
+   */
+  async meta(args = {}) {
+    return (
+      await _call(
+        {
+          request: "v1/meta"
+        },
+        this.apiUrl,
+        this.apiKey,
+        this.apiSecret
+      )
     ).data;
   }
 
@@ -176,7 +213,7 @@ class Biscoint {
   async balance() {
     return (
       await _call(
-        { request: "/v1/balance" },
+        { request: "v1/balance" },
         this.apiUrl,
         this.apiKey,
         this.apiSecret
@@ -192,7 +229,7 @@ class Biscoint {
   async trades(args = {}) {
     return (
       await _call(
-        { request: "/v1/trades", op: args.op || 'both' },
+        { request: "v1/trades", op: args.op || "both" },
         this.apiUrl,
         this.apiKey,
         this.apiSecret
@@ -211,10 +248,12 @@ class Biscoint {
     return (
       await _call(
         {
-          request: "/v1/offer",
+          request: "v1/offer",
           amount: new BigNumber(args.amount).toFormat(8),
           op: args.op,
-          base: args.base
+          base: "BTC",
+          quote: "BRL",
+          isQuote: args.isQuote
         },
         this.apiUrl,
         this.apiKey,
@@ -233,7 +272,7 @@ class Biscoint {
     return (
       await _call(
         {
-          request: "/v1/offer",
+          request: "v1/offer",
           offerId: args.offerId
         },
         this.apiUrl,

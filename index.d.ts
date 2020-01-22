@@ -7,18 +7,20 @@ declare class Biscoint {
     quote: "BRL";
     amount: 1000;
   }): Promise<Biscoint.tickerResult>;
+  withdrawFees(): Promise<Biscoint.withdrawFeesResult>;
+  meta(): Promise<Object>;
   balance(): Promise<Biscoint.balanceResult>;
   trades(options: {
-    /** operation that you want, default will return both buy and sell, last 20 */
-    op?: Biscoint.op
+    /** operation that you want, returns last 20 */
+    op: Biscoint.op
   }): Promise<Biscoint.tradesResult[]>;
   offer(options: {
-    /** value that you want to trade */
+    /** amount that you want to trade */
     amount: Number;
     /** operation */
     op: Biscoint.op;
-    /** currency base */
-    base: Biscoint.base;
+    /** is currency quote */
+    isQuote: Biscoint.isQuote;
   }): Promise<Biscoint.offerResult>;
   confirmOffer(options: { offerId: String }): Promise<Biscoint.confirmOfferResult>;
 }
@@ -27,6 +29,7 @@ declare namespace Biscoint {
   type base = "BTC" | "BRL";
   type quote = "BTC" | "BRL";
   type op = "buy" | "sell";
+  type isQuote = true | false;
 
   interface constructorOptions {
     apiKey: string;
@@ -62,14 +65,16 @@ declare namespace Biscoint {
   }
 
   interface offerResult {
-    base: base;
-    quote: quote;
-    amount: Number;
-    quoteamount: Number;
-    exchange: String;
     offerId: String;
-    expires: String;
-    timestamp: String;
+    base: Biscoint.base;
+    quote: Biscoint.quote;
+    isQuote: Biscoint.isQuote;
+    baseAmount: Number;
+    quoteAmount: Number;
+    efPrice: Number;
+    createdAt: Date;
+    expiresAt: String;
+    apiKeyId: String;
   }
 
   interface confirmOfferResult {
@@ -80,6 +85,11 @@ declare namespace Biscoint {
     offerId: String;
     orderPrice: Number;
     op: op;
+  }
 
+  interface withdrawFeesResult{
+    slow: Number;
+    normal: Number;
+    fast: Number;
   }
 }

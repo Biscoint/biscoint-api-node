@@ -1,15 +1,16 @@
 const Biscoint = require("./index");
 
 const bc = new Biscoint({
-    apiKey: "",
-    apiSecret: "",
+  apiKey: "",
+  apiSecret: ""
 });
 
 // bc.offer({
 //     amount: 0.01,
-//     base: "BTC",
+//     isQuote: false,
 //     op: "buy"
 // }).then((res)=>{
+//     console.log(res);
 //     bc.confirmOffer({ offerId: res.offerId }).then((res)=>{
 //         console.log(res);
 //     }).catch((err)=>{
@@ -19,8 +20,36 @@ const bc = new Biscoint({
 //     console.error(err);
 // });
 
-bc.trades().then((res)=>{
+// bc.withdrawFees()
+//   .then(res => {
+//     console.log(res);
+//   })
+//   .catch(err => {
+//     console.error(err);
+//   });
+
+bc.meta()
+  .then(res => {
     console.log(res);
-}).catch((err)=>{
+  })
+  .catch(err => {
     console.error(err);
-});
+  });
+
+// bc.ticker({
+//   amount: 1000
+// })
+//   .then(res => {
+//     console.log(res);
+//   })
+//   .catch(err => {
+//     console.error(err);
+//   });
+
+// bc.trades({
+//     op: 'buy'
+// }).then((res)=>{
+//     console.log(res);
+// }).catch((err)=>{
+//     console.error(err);
+// });
