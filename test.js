@@ -1,8 +1,8 @@
 const Biscoint = require("./index");
 
 const bc = new Biscoint({
-  apiKey: "",
-  apiSecret: ""
+  apiKey: "qwe",
+  apiSecret: "qwe"
 });
 
 // bc.offer({
@@ -20,13 +20,13 @@ const bc = new Biscoint({
 //     console.error(err);
 // });
 
-// bc.withdrawFees()
-//   .then(res => {
-//     console.log(res);
-//   })
-//   .catch(err => {
-//     console.error(err);
-//   });
+bc.fees()
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => {
+    console.error(err);
+  });
 
 bc.meta()
   .then(res => {

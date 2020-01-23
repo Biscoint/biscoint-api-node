@@ -174,11 +174,11 @@ class Biscoint {
    * @public
    * @return {Object}
    */
-  async withdrawFees(args = {}) {
+  async fees(args = {}) {
     return (
       await _call(
         {
-          request: "v1/withdrawFees"
+          request: "v1/fees"
         },
         this.apiUrl,
         this.apiKey,
