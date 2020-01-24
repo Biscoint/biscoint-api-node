@@ -33,12 +33,17 @@ All methods return a Promise.
 ## Public methods
 
 ### Ticker
+
 ---
+
 Get Biscoint ticker
+
 ```JavaScript
 bc.ticker();
 ```
+
 Returns
+
 ```JavaScript
 {
   base: 'BTC',
@@ -54,6 +59,128 @@ Returns
   bidQuoteAmountRef: 1000,
   bidBaseAmountRef: 0.03337572,
   timestamp: '2019-12-10T20:22:29.172Z'
+}
+```
+
+### Fees
+
+---
+
+Get Biscoint fees
+
+```JavaScript
+bc.ticker();
+```
+
+Returns
+
+```JavaScript
+{
+  withdrawal: {
+    BTC: {
+      rate: "0.0",
+      fixed: {
+        slow: "0.0001",
+        normal: "0.0002",
+        fast: "0.0004"
+      }
+    },
+    BRL: {
+      rate: "0.0",
+      fixed: {
+        ted: "14.90",
+        sameBankTransfer: "14.90"
+      }
+    }
+  }
+}
+```
+
+### Rate limits
+
+---
+
+Get Biscoint fees
+
+```JavaScript
+bc.meta();
+```
+
+Returns
+
+```JavaScript
+{
+  version: "v1",
+  endpoints: {
+    ticker: {
+      get: {
+        type: "public",
+        rateLimit: {
+          windowMs: 60000,
+          maxRequests: 6,
+          rate: "6 per 1 minute"
+        }
+      }
+    },
+    fees: {
+      get: {
+        type: "public",
+        rateLimit: {
+          windowMs: 60000,
+          maxRequests: 2,
+          rate: "2 per 1 minute"
+        }
+      }
+    },
+    meta: {
+      get: {
+        type: "public",
+        rateLimit: {
+          windowMs: 60000,
+          maxRequests: 2,
+          rate: "2 per 1 minute"
+        }
+      }
+    },
+    balance: {
+      get: {
+        type: "private",
+        rateLimit: {
+          windowMs: 60000,
+          maxRequests: 12,
+          rate: "12 per 1 minute"
+        }
+      }
+    },
+    offer: {
+      get: {
+        type: "private",
+        rateLimit: {
+          windowMs: 60000,
+          maxRequests: 24,
+          rate: "24 per 1 minute"
+        }
+      },
+      post: {
+        type: "private",
+        rateLimit: {
+          windowMs: 60000,
+          maxRequests: 24,
+          rate: "24 per 1 minute"
+        }
+      }
+    },
+    trades: {
+      get: {
+        type: "private",
+        rateLimit: {
+          windowMs: 60000,
+          maxRequests: 12,
+          rate: "12 per 1 minute"
+        }
+      }
+    }
+  }
 }
 ```
 
@@ -73,8 +200,8 @@ Returns
 
 ```JavaScript
 {
-  brl: 5000.00,
-  btc: 0.001
+  BRL: 5000.00,
+  BTC: 0.001
 }
 ```
 
@@ -82,31 +209,27 @@ Returns
 
 ---
 
-Request a new offer for amount, base and side that you specify.
+Request a new offer for amount, and side that you specify.
 
 ```JavaScript
-bc.offer({amount: 0.001, base: "BTC", op: "buy"});
+bc.offer({ amount: 0.01, isQuote: false, op: "buy" });
 ```
 
 Returns
 
 ```JavaScript
 {
-  baseAmount: '0.00155952',
-  quoteAmount: '50.00',
-  efPrice: '32061.15',
-  exchangeFees: '0.00',
-  exchangeId: 'brasilbitcoin',
-  orderPrice: '30378.90',
-  offerId: 'YMrgz8FoWNtr4r6iA',
-  userId: 'uxKCdt5Qd7Nt9eYSp',
-  base: 'BTC',
-  quote: 'BRL',
-  op: 'buy',
-  createdAt: '2019-12-10T20:21:32.440Z',
-  expiresAt: '2019-12-10T20:21:47.440Z',
-  isFinal: false,
-  isQuote: true
+  offerId: "hHaJuKF2m5aD8mZn4",
+  base: "BTC",
+  quote: "BRL",
+  op: "buy",
+  isQuote: false,
+  baseAmount: "0.01000000",
+  quoteAmount: "362.69",
+  efPrice: "36269.00",
+  createdAt: "2020-01-22T22:39:16.874Z",
+  expiresAt: "2020-01-22T22:39:31.874Z",
+  apiKeyId: "BdFABxNakZyxPwnRu"
 }
 ```
 
@@ -124,24 +247,28 @@ Returns
 
 ```JavaScript
 {
-  confirmedAt: '2019-12-10T20:21:32.629Z',
-  baseAmount: '0.00155952',
-  quoteAmount: '50.00',
-  efPrice: '32061.15',
-  offerId: 'YMrgz8FoWNtr4r6iA',
-  orderPrice: '30378.90',
-  op: 'buy'
+  offerId: "hHaJuKF2m5aD8mZn4",
+  base: "BTC",
+  quote: "BRL",
+  op: "buy",
+  isQuote: false,
+  baseAmount: "0.01000000",
+  quoteAmount: "362.69",
+  efPrice: "36269.00",
+  createdAt: "2020-01-22T22:39:16.874Z",
+  confirmedAt: "2020-01-22T22:39:16.945Z",
+  apiKeyId: "BdFABxNakZyxPwnRu"
 }
 ```
 
-### Get last trafes
+### Get last trades
 
 ---
 
 Returns last 20 trades
 
 ```JavaScript
-bc.trades();
+bc.trades({ op: 'sell' });
 ```
 
 Returns
