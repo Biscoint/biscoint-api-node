@@ -69,7 +69,7 @@ Returns
 Get Biscoint fees
 
 ```JavaScript
-bc.ticker();
+bc.fees();
 ```
 
 Returns
