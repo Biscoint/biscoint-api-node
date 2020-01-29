@@ -1,5 +1,7 @@
 # Biscoint API Node
 
+NodeJS library for interacting with [Biscoint](https://biscoint.io)'s API. In order to call private methods, you'll need a Biscoint verified account to generate the API key and secret.
+
 ## Install with NPM
 
 ```bash
