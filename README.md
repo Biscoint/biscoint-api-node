@@ -2,6 +2,8 @@
 
 NodeJS library for interacting with [Biscoint](https://biscoint.io)'s API. In order to call private methods, you'll need a Biscoint verified account to generate the API key and secret.
 
+Biscoint is a cryptocurrency marketplace that allows trading BTC in multiple brazilian exchanges with a single account.
+
 ## Install with NPM
 
 ```bash
