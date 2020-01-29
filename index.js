@@ -2,8 +2,9 @@
 const axios = require("axios");
 const createHmac = require("crypto").createHmac;
 const stringify = require("querystring").stringify;
-const joi = require("joi");
+const joi = require("@hapi/joi");
 const BigNumber = require("bignumber.js");
+const Url = require("url");
 
 BigNumber.config({
   FORMAT: {
@@ -25,27 +26,49 @@ const tickerSchema = joi.object({
   amount: joi
     .number()
     .precision(8)
-    .required(),
+    .default('1000.00')
+    .cast('string')
+    .optional(),
+
   base: joi
     .string()
     .valid("BTC")
-    .required(),
+    .default('BTC')
+    .optional(),
+
   quote: joi
     .string()
     .valid("BRL")
-    .required()
+    .default('BRL')
+    .optional()
+});
+
+const getTradesSchema = joi.object({
+  op: joi.string()
+    .valid('buy', 'sell')
+    .optional(),
+
+  length: joi.number()
+    .default(10)
+    .max(20)
+    .min(1)
+    .optional(),
 });
 
 const offerSchema = joi.object({
   amount: joi
     .number()
     .precision(8)
+    .cast('string')
     .required(),
+
   op: joi
     .string()
     .valid("buy", "sell")
     .required(),
-  isQuote: joi.boolean().required()
+
+  isQuote: joi.boolean()
+    .required()
 });
 
 const confirmOfferSchema = joi.object({
@@ -98,44 +121,6 @@ const confirmOfferSchema = joi.object({
  */
 
 /**
- * @param {Object} args - Arguments to sign
- * @return {string} - Base64 hash
- */
-function _sign(args, apiSecret) {
-  const jsonString = JSON.stringify(args, Object.keys(args).sort());
-  const hashBuffer = Buffer.from(jsonString).toString("base64");
-  return createHmac("sha256", apiSecret)
-    .update(hashBuffer)
-    .digest("hex");
-}
-
-/**
- * @param {Object} args
- * @param {('GET'|'POST')} [method=GET] GET by default
- * @return {Object}
- */
-async function _call(args, apiUrl, apiKey, apiSecret, method = "GET") {
-  const config = {
-    method: method,
-    url: `${apiUrl}${args.request}?${method == "GET" ? stringify(args) : ""}`,
-    headers: {
-      "BSCNT-SIGN": _sign(args, apiSecret),
-      "BSCNT-APIKEY": apiKey
-    },
-    data: args
-  };
-  try {
-    return (await axios(config)).data;
-  } catch (error) {
-    if (error.response) {
-      if (error.response.data.message) throw error.response.data.message;
-      throw error.response.data;
-    }
-    throw error;
-  }
-}
-
-/**
  * Biscoint wrapper
  */
 class Biscoint {
@@ -153,20 +138,11 @@ class Biscoint {
    * @return {Object}
    */
   async ticker(args = {}) {
-    tickerSchema.validate(args);
-    return (
-      await _call(
-        {
-          request: "v1/ticker",
-          base: "BTC",
-          quote: "BRL",
-          amount: new BigNumber(args.amount || 1000).toFormat(8)
-        },
-        this.apiUrl,
-        this.apiKey,
-        this.apiSecret
-      )
-    ).data;
+    const params = await tickerSchema.validateAsync(args);
+
+    const res = await this._call('ticker', params, 'GET', false);
+
+    return res ? res.data : null;
   }
 
   /**
@@ -175,16 +151,8 @@ class Biscoint {
    * @return {Object}
    */
   async fees(args = {}) {
-    return (
-      await _call(
-        {
-          request: "v1/fees"
-        },
-        this.apiUrl,
-        this.apiKey,
-        this.apiSecret
-      )
-    ).data;
+    const res = await this._call('fees', null, 'GET', false);
+    return res ? res.data : null;
   }
 
   /**
@@ -193,16 +161,8 @@ class Biscoint {
    * @return {Object}
    */
   async meta(args = {}) {
-    return (
-      await _call(
-        {
-          request: "v1/meta"
-        },
-        this.apiUrl,
-        this.apiKey,
-        this.apiSecret
-      )
-    ).data;
+    const res = await this._call('meta', null, 'GET', false);
+    return res ? res.data : null;
   }
 
   /**
@@ -211,14 +171,8 @@ class Biscoint {
    * @return {Object}
    */
   async balance() {
-    return (
-      await _call(
-        { request: "v1/balance" },
-        this.apiUrl,
-        this.apiKey,
-        this.apiSecret
-      )
-    ).data;
+    const res = await this._call('balance', null, 'POST', true);
+    return res ? res.data : null;
   }
 
   /**
@@ -227,14 +181,11 @@ class Biscoint {
    * @return {Object}
    */
   async trades(args = {}) {
-    return (
-      await _call(
-        { request: "v1/trades", op: args.op || "both" },
-        this.apiUrl,
-        this.apiKey,
-        this.apiSecret
-      )
-    ).data;
+    const params = await getTradesSchema.validateAsync(args);
+
+    const res = await this._call('trades', params, 'POST', true);
+
+    return res ? res.data : null;
   }
 
   /**
@@ -244,22 +195,11 @@ class Biscoint {
    * @return {Offer} - Offer that you ask
    */
   async offer(args) {
-    offerSchema.validate(args);
-    return (
-      await _call(
-        {
-          request: "v1/offer",
-          amount: new BigNumber(args.amount).toFormat(8),
-          op: args.op,
-          base: "BTC",
-          quote: "BRL",
-          isQuote: args.isQuote
-        },
-        this.apiUrl,
-        this.apiKey,
-        this.apiSecret
-      )
-    ).data;
+    const params = await offerSchema.validateAsync(args);
+
+    const res = await this._call('offer', params, 'POST', true);
+
+    return res ? res.data : null;
   }
 
   /**
@@ -268,19 +208,71 @@ class Biscoint {
    * @param {ConfirmOfferParams} args - Confirm Offer params
    */
   async confirmOffer(args) {
-    confirmOfferSchema.validate(args);
-    return (
-      await _call(
-        {
-          request: "v1/offer",
-          offerId: args.offerId
-        },
-        this.apiUrl,
-        this.apiKey,
-        this.apiSecret,
-        "POST"
-      )
-    ).data;
+    const params = await confirmOfferSchema.validateAsync(args);
+
+    const res = await this._call('offer/confirm', params, 'POST', true);
+
+    return res ? res.data : null;
+  }
+
+  // PRIVATE
+
+  async _call(endpoint, params = null, method = 'GET', addAuth = false) {
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    let data = null;
+    let nonce = 0;
+
+    const v1Endpoint = `v1/${endpoint}`;
+    let url = Url.resolve(this.apiUrl, v1Endpoint);
+
+    if (method === 'GET') {
+      url = `${url}${params ? `?${stringify(params)}` : ''}`
+    }
+
+    if (method === 'POST') {
+      params = params || {};
+      data = JSON.stringify(params, Object.keys(params).sort());;
+
+      if (addAuth) {
+        nonce = (Date.now() * 1000).toString();
+        const signedParams = this._sign(endpoint, nonce, data);
+        headers['BSCNT-NONCE'] = nonce;
+        headers['BSCNT-APIKEY'] = this.apiKey;
+        headers['BSCNT-SIGN'] = signedParams;
+      }
+    }
+
+    const config = {
+      url,
+      method,
+      headers,
+      data,
+    };
+
+    try {
+      return (await axios(config)).data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        if (error.response.data.message) {
+          throw error.response.data.message;
+        }
+        throw error.response.data;
+      }
+      throw error;
+    }
+  }
+
+  _sign(endpoint, nonce, data) {
+    const strToBeSigned = `v1/${endpoint}${nonce}${data}`;
+    const hashBuffer = Buffer.from(strToBeSigned).toString('base64');
+
+    const signData = createHmac('sha384', this.apiSecret)
+      .update(hashBuffer)
+      .digest('hex');
+
+    return signData;
   }
 }
 
