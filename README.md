@@ -4,6 +4,10 @@ NodeJS library for interacting with [Biscoint](https://biscoint.io)'s API. In or
 
 Biscoint is a cryptocurrency marketplace that allows trading BTC in multiple brazilian exchanges with a single account.
 
+## Example
+
+Check out [biscoint-arbitrage-bot](https://github.com/Biscoint/biscoint-arbitrage-bot), for it showcases the use of many of the methods in this library in an arbitrage bot application.
+
 ## Install with NPM
 
 ```bash
