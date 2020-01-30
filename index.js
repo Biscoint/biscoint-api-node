@@ -1,25 +1,27 @@
 // @ts-ignore
-const axios = require("axios");
-const createHmac = require("crypto").createHmac;
-const stringify = require("querystring").stringify;
-const joi = require("@hapi/joi");
-const BigNumber = require("bignumber.js");
-const Url = require("url");
+const axios = require('axios');
+const createHmac = require('crypto').createHmac;
+const stringify = require('querystring').stringify;
+const joi = require('@hapi/joi');
+const BigNumber = require('bignumber.js');
+const Url = require('url');
+
+const GET_NONCE_DELAY_INC_MS = 10;
 
 BigNumber.config({
   FORMAT: {
-    decimalSeparator: ".",
-    groupSeparator: ""
+    decimalSeparator: '.',
+    groupSeparator: '',
   }
 });
 
 const constructorSchema = joi.object({
-  apiKey: joi.string().default(""),
-  apiSecret: joi.string().default(""),
+  apiKey: joi.string().default(''),
+  apiSecret: joi.string().default(''),
   apiUrl: joi
     .string()
     .optional()
-    .default("https://api.biscoint.io/")
+    .default('https://api.biscoint.io/'),
 });
 
 const tickerSchema = joi.object({
@@ -32,15 +34,15 @@ const tickerSchema = joi.object({
 
   base: joi
     .string()
-    .valid("BTC")
+    .valid('BTC')
     .default('BTC')
     .optional(),
 
   quote: joi
     .string()
-    .valid("BRL")
+    .valid('BRL')
     .default('BRL')
-    .optional()
+    .optional(),
 });
 
 const getTradesSchema = joi.object({
@@ -64,11 +66,11 @@ const offerSchema = joi.object({
 
   op: joi
     .string()
-    .valid("buy", "sell")
+    .valid('buy', 'sell')
     .required(),
 
   isQuote: joi.boolean()
-    .required()
+    .required(),
 });
 
 const confirmOfferSchema = joi.object({
@@ -128,7 +130,9 @@ class Biscoint {
    * @memberof Biscoint
    */
   constructor(args = {}) {
-    Object.assign(this, constructorSchema.validate(args).value);
+    Object.assign(this, joi.attempt(args, constructorSchema));
+    this._usNonce = 0;
+    this._nextCallDelay = 0;
   }
 
   /**
@@ -138,7 +142,7 @@ class Biscoint {
    * @return {Object}
    */
   async ticker(args = {}) {
-    const params = await tickerSchema.validateAsync(args);
+    const params = joi.attempt(args, tickerSchema);
 
     const res = await this._call('ticker', params, 'GET', false);
 
@@ -181,7 +185,7 @@ class Biscoint {
    * @return {Object}
    */
   async trades(args = {}) {
-    const params = await getTradesSchema.validateAsync(args);
+    const params = joi.attempt(args, getTradesSchema);
 
     const res = await this._call('trades', params, 'POST', true);
 
@@ -195,7 +199,7 @@ class Biscoint {
    * @return {Offer} - Offer that you ask
    */
   async offer(args) {
-    const params = await offerSchema.validateAsync(args);
+    const params = joi.attempt(args, offerSchema);
 
     const res = await this._call('offer', params, 'POST', true);
 
@@ -208,7 +212,7 @@ class Biscoint {
    * @param {ConfirmOfferParams} args - Confirm Offer params
    */
   async confirmOffer(args) {
-    const params = await confirmOfferSchema.validateAsync(args);
+    const params = joi.attempt(args, confirmOfferSchema);
 
     const res = await this._call('offer/confirm', params, 'POST', true);
 
@@ -236,7 +240,7 @@ class Biscoint {
       data = JSON.stringify(params, Object.keys(params).sort());;
 
       if (addAuth) {
-        nonce = (Date.now() * 1000).toString();
+        nonce = await this._getNonce();
         const signedParams = this._sign(endpoint, nonce, data);
         headers['BSCNT-NONCE'] = nonce;
         headers['BSCNT-APIKEY'] = this.apiKey;
@@ -261,7 +265,26 @@ class Biscoint {
         throw error.response.data;
       }
       throw error;
+    } finally {
+      if (method === 'POST' && addAuth) {
+        this._nextCallDelay = Math.max(this._nextCallDelay - GET_NONCE_DELAY_INC_MS, 0);
+      }
     }
+  }
+
+  // This ensures a minimal amount of time between calls so that the nonce always increases
+  // and requests are made in the expected order.
+  async _getNonce() {
+    const curDelay = this._nextCallDelay;
+    this._nextCallDelay += GET_NONCE_DELAY_INC_MS;
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this._usNonce = (this._usNonce + 1) % 1000;
+        const nonce = (Date.now() * 1000 + this._usNonce).toString();
+        resolve(nonce);
+      }, curDelay);
+    });
   }
 
   _sign(endpoint, nonce, data) {

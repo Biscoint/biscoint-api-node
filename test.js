@@ -1,8 +1,8 @@
 const Biscoint = require('./index');
 
 const bc = new Biscoint({
-  apiKey: 'you api key',
-  apiSecret: 'you api secret',
+  apiKey: 'your api key',
+  apiSecret: 'your api secret',
 });
 
 bc.ticker({
@@ -40,26 +40,49 @@ bc.balance()
   });
 
 bc.trades({
-    op: 'buy'
-}).then((res)=>{
+  op: 'buy',
+  length: 1,
+})
+  .then((res)=>{
     console.log(JSON.stringify(res, null, 2));
-}).catch((err)=>{
+  })
+  .catch((err)=>{
     console.error(err);
-});
+  });
 
-// bc.offer({
-//     amount: 0.01,
-//     isQuote: false,
-//     op: 'buy'
-// }).then((res)=>{
-//     console.log(JSON.stringify(res, null, 2));
-//     bc.confirmOffer({ offerId: res.offerId }).then((res)=>{
-//         console.log(JSON.stringify(res, null, 2));
-//     }).catch((err)=>{
-//         console.error(err);
-//     });
-// }).catch((err)=>{
-//     console.error(err);
-// });
+bc.offer({
+  amount: 0.01,
+  isQuote: false,
+  op: 'buy'
+})
+  .then((res)=>{
+    console.log(JSON.stringify(res, null, 2));
+    // bc.confirmOffer({ offerId: res.offerId }).then((res)=>{
+    //   console.log(JSON.stringify(res, null, 2));
+    // }).catch((err)=>{
+    //   console.error(err);
+    // });
+  })
+  .catch((err)=>{
+    console.error(err);
+  });
+
+
+bc.offer({
+  amount: 0.01,
+  isQuote: false,
+  op: 'sell'
+})
+  .then((res)=>{
+    console.log(JSON.stringify(res, null, 2));
+    // bc.confirmOffer({ offerId: res.offerId }).then((res)=>{
+    //   console.log(JSON.stringify(res, null, 2));
+    // }).catch((err)=>{
+    //   console.error(err);
+    // });
+  })
+  .catch((err)=>{
+    console.error(err);
+  });
 
 
