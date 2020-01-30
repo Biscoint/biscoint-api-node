@@ -51,9 +51,9 @@ bc.trades({
   });
 
 bc.offer({
-  amount: 0.01,
-  isQuote: false,
-  op: 'buy'
+  amount: 100,
+  isQuote: true,
+  op: 'buy',
 })
   .then((res)=>{
     console.log(JSON.stringify(res, null, 2));
@@ -69,9 +69,9 @@ bc.offer({
 
 
 bc.offer({
-  amount: 0.01,
-  isQuote: false,
-  op: 'sell'
+  amount: 100,
+  isQuote: true,
+  op: 'sell',
 })
   .then((res)=>{
     console.log(JSON.stringify(res, null, 2));

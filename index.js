@@ -237,7 +237,7 @@ class Biscoint {
 
     if (method === 'POST') {
       params = params || {};
-      data = JSON.stringify(params, Object.keys(params).sort());;
+      data = JSON.stringify(params, Object.keys(params).sort());
 
       if (addAuth) {
         nonce = await this._getNonce();
