@@ -284,10 +284,16 @@ Returns
 ```JavaScript
 [
   {
-    date: 1576522769,
-    amount: '0.01718435',
-    total: '500.00',
-    op: 'sell'
+    "id": "D6x63B3q3Mec4tggY",
+    "offerId": "aX2Bkd8MseB20Axbkba",
+    "op": "buy",
+    "base": "BTC",
+    "quote": "BRL",
+    "baseAmount": "0.01000000",
+    "quoteAmount": "362.82",
+    "apiKeyId": "BdFABxNakZyxPwnRu",
+    "efPrice": "36282.00",
+    "date": "2020-01-22T23:25:02.785Z"
   },
   ...
 ]
