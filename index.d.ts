@@ -16,7 +16,7 @@ declare class Biscoint {
   }): Promise<Biscoint.tradesResult[]>;
   offer(options: {
     /** amount that you want to trade */
-    amount: numberAsString;
+    amount: Biscoint.numberAsString;
     /** operation */
     op: Biscoint.op;
     /** is currency quote */
