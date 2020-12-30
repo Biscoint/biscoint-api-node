@@ -163,13 +163,16 @@ declare namespace Biscoint {
   }
 
   interface confirmOfferResult {
-    confirmedAt: Date;
+    offerId: string;
+    base: Biscoint.base;
+    quote: Biscoint.quote;
+    isQuote: Biscoint.isQuote;
     baseAmount: numberAsString;
     quoteAmount: numberAsString;
     efPrice: numberAsString;
-    offerId: string;
-    orderPrice: numberAsString;
-    op: op;
+    createdAt: Date;
+    confirmedAt: Date;
+    apiKeyId: string;
   }
 
   interface feesResult {
