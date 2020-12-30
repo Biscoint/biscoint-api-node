@@ -12,7 +12,8 @@ declare class Biscoint {
   balance(): Promise<Biscoint.balanceResult>;
   trades(options: {
     /** operation that you want, returns last 20 */
-    op: Biscoint.op;
+    op?: Biscoint.op;
+    length?: number;
   }): Promise<Biscoint.tradesResult[]>;
   offer(options: {
     /** amount that you want to trade */
@@ -57,77 +58,77 @@ declare namespace Biscoint {
   }
 
   interface metaResult {
-    version: string,
+    version: string;
     endpoints: {
       ticker: {
         get: {
-          type: string,
+          type: string;
           rateLimit: {
-            windowMs: number,
-            maxRequests: number,
-            rate: string
-          }
-        }
-      },
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+      };
       fees: {
         get: {
-          type: string,
+          type: string;
           rateLimit: {
-            windowMs: number,
-            maxRequests: number,
-            rate: string
-          }
-        }
-      },
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+      };
       meta: {
         get: {
-          type: string,
+          type: string;
           rateLimit: {
-            windowMs: number,
-            maxRequests: number,
-            rate: string
-          }
-        }
-      },
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+      };
       balance: {
         get: {
-          type: string,
+          type: string;
           rateLimit: {
-            windowMs: number,
-            maxRequests: number,
-            rate: string
-          }
-        }
-      },
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+      };
       offer: {
         get: {
-          type: string,
+          type: string;
           rateLimit: {
-            windowMs: number,
-            maxRequests: number,
-            rate: string
-          }
-        },
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
         post: {
-          type: string,
+          type: string;
           rateLimit: {
-            windowMs: number,
-            maxRequests: number,
-            rate: string
-          }
-        }
-      },
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+      };
       trades: {
         get: {
-          type: string,
+          type: string;
           rateLimit: {
-            windowMs: number,
-            maxRequests: number,
-            rate: string
-          }
-        }
-      }
-    }
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+      };
+    };
   }
 
   interface balanceResult {
