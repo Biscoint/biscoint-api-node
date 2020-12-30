@@ -24,7 +24,7 @@ declare class Biscoint {
     isQuote: Biscoint.isQuote;
   }): Promise<Biscoint.offerResult>;
   confirmOffer(options: {
-    offerId: String;
+    offerId: string;
   }): Promise<Biscoint.confirmOfferResult>;
 }
 
@@ -32,13 +32,13 @@ declare namespace Biscoint {
   type base = "BTC" | "BRL";
   type quote = "BTC" | "BRL";
   type op = "buy" | "sell";
-  type isQuote = Boolean;
+  type isQuote = boolean;
   /* string with containing a number */
-  type numberAsString = String;
+  type numberAsString = string;
 
   interface constructorOptions {
-    apiKey: String;
-    apiSecret: String;
+    apiKey: string;
+    apiSecret: string;
   }
 
   interface tickerResult {
@@ -54,7 +54,7 @@ declare namespace Biscoint {
     bid: numberAsString;
     bidQuoteAmountRef: numberAsString;
     bidBaseAmountRef: numberAsString;
-    timestamp: String;
+    timestamp: string;
   }
 
   interface metaResult {
@@ -150,7 +150,7 @@ declare namespace Biscoint {
   }
 
   interface offerResult {
-    offerId: String;
+    offerId: string;
     base: Biscoint.base;
     quote: Biscoint.quote;
     isQuote: Biscoint.isQuote;
@@ -159,7 +159,7 @@ declare namespace Biscoint {
     efPrice: numberAsString;
     createdAt: Date;
     expiresAt: Date;
-    apiKeyId: String;
+    apiKeyId: string;
   }
 
   interface confirmOfferResult {
@@ -167,7 +167,7 @@ declare namespace Biscoint {
     baseAmount: numberAsString;
     quoteAmount: numberAsString;
     efPrice: numberAsString;
-    offerId: String;
+    offerId: string;
     orderPrice: numberAsString;
     op: op;
   }
