@@ -137,10 +137,16 @@ declare namespace Biscoint {
   }
 
   interface tradesResult {
-    date: numberAsString;
-    amount: String;
-    total: String;
+    id: string;
+    offerId: string;
     op: op;
+    base: base;
+    quote: base;
+    baseAmount: numberAsString;
+    quoteAmount: numberAsString;
+    apiKeyId: string;
+    efPrice: numberAsString;
+    date: numberAsString;
   }
 
   interface offerResult {
