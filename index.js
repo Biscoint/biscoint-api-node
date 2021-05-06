@@ -2,7 +2,7 @@
 const axios = require('axios');
 const createHmac = require('crypto-js/hmac-sha384');
 const stringify = require('querystring').stringify;
-const joi = require('@hapi/joi');
+const joi = require('joi');
 const BigNumber = require('bignumber.js');
 const Url = require('url');
 
