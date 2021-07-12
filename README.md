@@ -2,7 +2,7 @@
 
 NodeJS library for interacting with [Biscoint](https://biscoint.io)'s API. In order to call private methods, you'll need a Biscoint verified account to generate the API key and secret.
 
-Biscoint is a cryptocurrency marketplace that allows trading BTC in multiple brazilian exchanges with a single account.
+Biscoint is a cryptocurrency marketplace that allows trading BTC and other cryptocurrencies in multiple brazilian exchanges with a single account.
 
 ## Example
 
@@ -209,7 +209,8 @@ Returns
 ```JavaScript
 {
   BRL: 5000.00,
-  BTC: 0.001
+  BTC: 0.001,
+  ETH: 0.01,
 }
 ```
 
@@ -220,7 +221,7 @@ Returns
 Request a new offer for amount, and side that you specify.
 
 ```JavaScript
-bc.offer({ amount: 0.01, isQuote: false, op: "buy" });
+bc.offer({ amount: 0.01, base: "BTC", isQuote: false, op: "buy" });
 ```
 
 Returns

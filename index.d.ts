@@ -3,7 +3,7 @@ export = Biscoint;
 declare class Biscoint {
   constructor(options?: Biscoint.constructorOptions);
   ticker(options?: {
-    base: "BTC";
+    base: "BTC" | "ETH";
     quote: "BRL";
     amount: 1000;
   }): Promise<Biscoint.tickerResult>;
@@ -17,6 +17,8 @@ declare class Biscoint {
   offer(options: {
     /** amount that you want to trade */
     amount: Biscoint.numberAsString;
+    base: "BTC" | "ETH";
+    quote: "BRL";
     /** operation */
     op: Biscoint.op;
     /** is currency quote */
@@ -28,8 +30,8 @@ declare class Biscoint {
 }
 
 declare namespace Biscoint {
-  type base = "BTC" | "BRL";
-  type quote = "BTC" | "BRL";
+  type base = "BTC" | "ETH" | "BRL";
+  type quote = "BTC" | "ETH" | "BRL";
   type op = "buy" | "sell";
   type isQuote = Boolean;
   /* string with containing a number */
@@ -59,6 +61,7 @@ declare namespace Biscoint {
   interface balanceResult {
     BTC: numberAsString;
     BRL: numberAsString;
+    ETH: numberAsString;
   }
 
   interface tradesResult {
