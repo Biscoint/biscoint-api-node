@@ -34,7 +34,7 @@ const tickerSchema = joi.object({
 
   base: joi
     .string()
-    .valid('BTC')
+    .valid('BTC', 'ETH')
     .default('BTC')
     .optional(),
 
@@ -87,7 +87,7 @@ const confirmOfferSchema = joi.object({
 /**
  * @typedef {Object} TickerParams
  * @property {number} [amount=1000] - Amount that you want to verify.
- * @property {('BTC')} base - Reference base symbol.
+ * @property {('BTC'|'ETH')} base - Reference base symbol.
  * @property {('BRL')} quote - Reference quote symbol.
  */
 
@@ -113,8 +113,8 @@ const confirmOfferSchema = joi.object({
  * @property {string} orderPrice
  * @property {string} offerId
  * @property {string} userId
- * @property {('BTC'|'BRL')} base
- * @property {string} quote
+ * @property {('BTC'|'ETH')} base
+ * @property {('BRL')} quote
  * @property {('buy'|'sell')} op
  * @property {string} createdAt
  * @property {string} expiresAt
