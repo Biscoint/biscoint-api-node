@@ -64,6 +64,18 @@ const offerSchema = joi.object({
     .cast('string')
     .required(),
 
+  base: Joi.string()
+    .uppercase()
+    .valid('BTC', 'ETH')
+    .default('BTC')
+    .optional(),
+
+  quote: Joi.string()
+    .uppercase()
+    .valid('BRL')
+    .default('BRL')
+    .optional(),
+
   op: joi
     .string()
     .valid('buy', 'sell')
