@@ -13,7 +13,9 @@ declare class Biscoint {
   trades(options: {
     /** operation that you want, returns last 20 */
     op: Biscoint.op;
-  }): Promise<Biscoint.tradesResult[]>;
+    /** if you need pagination, set the page here */
+    page?: number;
+  }): Promise<Biscoint.tradesResult[] | Biscoint.tradesPaginatedResult>;
   offer(options: {
     /** amount that you want to trade */
     amount: Biscoint.numberAsString;
@@ -66,6 +68,12 @@ declare namespace Biscoint {
     amount: String;
     total: String;
     op: op;
+  }
+
+  interface tradesPaginatedResult {
+    page: number;
+    totalPages: number;
+    trades: tradesResult[];
   }
 
   interface offerResult {
