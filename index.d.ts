@@ -38,6 +38,8 @@ declare namespace Biscoint {
   interface constructorOptions {
     apiKey: String;
     apiSecret: String;
+    apiUrl?: String;
+    apiTimeout?: Number;
   }
 
   interface tickerResult {

@@ -3,6 +3,7 @@ const Biscoint = require('./index');
 const bc = new Biscoint({
   apiKey: 'your api key',
   apiSecret: 'your api secret',
+  // apiTimeout: 5000,
 });
 
 bc.ticker({
