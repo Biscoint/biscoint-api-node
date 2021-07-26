@@ -14,6 +14,9 @@ declare class Biscoint {
     /** operation that you want, returns last 20 */
     op?: Biscoint.op;
     length?: number;
+    limit?: number;
+    /** if you want pagination, please indicate the page */
+    page?: number;
   }): Promise<Biscoint.tradesResult[]>;
   offer(options: {
     /** amount that you want to trade */
