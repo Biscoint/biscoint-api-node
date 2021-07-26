@@ -55,6 +55,11 @@ const getTradesSchema = joi.object({
     .max(20)
     .min(1)
     .optional(),
+
+  page: joi.number()
+    .integer()
+    .min(0)
+    .optional(),
 });
 
 const offerSchema = joi.object({
