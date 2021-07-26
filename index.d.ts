@@ -8,11 +8,15 @@ declare class Biscoint {
     amount: 1000;
   }): Promise<Biscoint.tickerResult>;
   fees(): Promise<Biscoint.feesResult>;
-  meta(): Promise<Object>;
+  meta(): Promise<Biscoint.metaResult>;
   balance(): Promise<Biscoint.balanceResult>;
   trades(options: {
     /** operation that you want, returns last 20 */
-    op: Biscoint.op;
+    op?: Biscoint.op;
+    length?: number;
+    limit?: number;
+    /** if you want pagination, please indicate the page */
+    page?: number;
   }): Promise<Biscoint.tradesResult[]>;
   offer(options: {
     /** amount that you want to trade */
@@ -23,7 +27,7 @@ declare class Biscoint {
     isQuote: Biscoint.isQuote;
   }): Promise<Biscoint.offerResult>;
   confirmOffer(options: {
-    offerId: String;
+    offerId: string;
   }): Promise<Biscoint.confirmOfferResult>;
 }
 
@@ -31,13 +35,13 @@ declare namespace Biscoint {
   type base = "BTC" | "BRL";
   type quote = "BTC" | "BRL";
   type op = "buy" | "sell";
-  type isQuote = Boolean;
+  type isQuote = boolean;
   /* string with containing a number */
-  type numberAsString = String;
+  type numberAsString = string;
 
   interface constructorOptions {
-    apiKey: String;
-    apiSecret: String;
+    apiKey: string;
+    apiSecret: string;
   }
 
   interface tickerResult {
@@ -53,7 +57,81 @@ declare namespace Biscoint {
     bid: numberAsString;
     bidQuoteAmountRef: numberAsString;
     bidBaseAmountRef: numberAsString;
-    timestamp: String;
+    timestamp: string;
+  }
+
+  interface metaResult {
+    version: string;
+    endpoints: {
+      ticker: {
+        get: {
+          type: string;
+          rateLimit: {
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+      };
+      fees: {
+        get: {
+          type: string;
+          rateLimit: {
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+      };
+      meta: {
+        get: {
+          type: string;
+          rateLimit: {
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+      };
+      balance: {
+        get: {
+          type: string;
+          rateLimit: {
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+      };
+      offer: {
+        get: {
+          type: string;
+          rateLimit: {
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+        post: {
+          type: string;
+          rateLimit: {
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+      };
+      trades: {
+        get: {
+          type: string;
+          rateLimit: {
+            windowMs: number;
+            maxRequests: number;
+            rate: string;
+          };
+        };
+      };
+    };
   }
 
   interface balanceResult {
@@ -62,14 +140,20 @@ declare namespace Biscoint {
   }
 
   interface tradesResult {
-    date: numberAsString;
-    amount: String;
-    total: String;
+    id: string;
+    offerId: string;
     op: op;
+    base: base;
+    quote: base;
+    baseAmount: numberAsString;
+    quoteAmount: numberAsString;
+    apiKeyId: string;
+    efPrice: numberAsString;
+    date: numberAsString;
   }
 
   interface offerResult {
-    offerId: String;
+    offerId: string;
     base: Biscoint.base;
     quote: Biscoint.quote;
     isQuote: Biscoint.isQuote;
@@ -78,17 +162,20 @@ declare namespace Biscoint {
     efPrice: numberAsString;
     createdAt: Date;
     expiresAt: Date;
-    apiKeyId: String;
+    apiKeyId: string;
   }
 
   interface confirmOfferResult {
-    confirmedAt: Date;
+    offerId: string;
+    base: Biscoint.base;
+    quote: Biscoint.quote;
+    isQuote: Biscoint.isQuote;
     baseAmount: numberAsString;
     quoteAmount: numberAsString;
     efPrice: numberAsString;
-    offerId: String;
-    orderPrice: numberAsString;
-    op: op;
+    createdAt: Date;
+    confirmedAt: Date;
+    apiKeyId: string;
   }
 
   interface feesResult {
