@@ -24,19 +24,15 @@ export interface ITickerResult {
 
 export interface IFeesResult {
   withdrawal: {
-    BTC: {
+    [symbol: string]: {
       rate: string;
       fixed: {
-        slow: string;
-        normal: string;
-        fast: string;
-      };
-    };
-    BRL: {
-      rate: string;
-      fixed: {
-        ted: string;
-        sameBankTransfer: string;
+        slow?: string;
+        normal?: string;
+        fast?: string;
+        /* only BRL has these properties */
+        ted?: string;
+        sameBankTransfer?: string;
       };
     };
   };
