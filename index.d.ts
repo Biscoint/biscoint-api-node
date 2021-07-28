@@ -40,15 +40,10 @@ declare namespace Biscoint {
   type numberAsString = string;
 
   interface constructorOptions {
-<<<<<<< HEAD
-    apiKey: String;
-    apiSecret: String;
-    apiUrl?: String;
-    apiTimeout?: Number;
-=======
     apiKey: string;
     apiSecret: string;
->>>>>>> origin/master
+    apiUrl?: string;
+    apiTimeout?: number;
   }
 
   interface tickerResult {
