@@ -111,7 +111,7 @@ Returns
 
 ---
 
-Get Biscoint fees
+Get Biscoint rate limit of your IP
 
 ```JavaScript
 bc.meta();
@@ -300,5 +300,42 @@ Returns
   },
   ...
 ]
+
+```
+
+### Get last trades paginated
+
+---
+
+Returns last 20 trades
+
+```JavaScript
+bc.trades({ page: 0, limit: 20 });
+```
+
+Returns
+
+```JavaScript
+{
+  "page": 0,
+  "totalPages": 2,
+  "totalSize": 15,
+  "limit": 20,
+  "trades": [
+    {
+      "id": "D6x63B3q3Mec4tggY",
+      "offerId": "aX2Bkd8MseB20Axbkba",
+      "op": "buy",
+      "base": "BTC",
+      "quote": "BRL",
+      "baseAmount": "0.01000000",
+      "quoteAmount": "362.82",
+      "apiKeyId": "BdFABxNakZyxPwnRu",
+      "efPrice": "36282.00",
+      "date": "2020-01-22T23:25:02.785Z"
+    },
+    ...
+  ]
+}
 
 ```
