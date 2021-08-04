@@ -32,9 +32,12 @@ import Biscoint from 'biscoint-api-node';
 const bc = new Biscoint({
   apiKey: 's4t0sh1n4k4m0t0',
   apiSecret: 's4t0sh1n4k4m0t0',
+  // apiTimeout: 9000,
 });
 
 ```
+
+Optionally, you can uncomment the apiTimeout line to specify the request timeout in milliseconds you want. If not specified the default timeout will be 5000ms.
 
 All methods return a Promise.
 

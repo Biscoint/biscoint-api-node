@@ -7,6 +7,7 @@ const BigNumber = require('bignumber.js');
 const Url = require('url');
 
 const GET_NONCE_DELAY_INC_MS = 10;
+const DEFAULT_API_TIMEOUT_MS = 5000;
 
 BigNumber.config({
   FORMAT: {
@@ -22,6 +23,11 @@ const constructorSchema = joi.object({
     .string()
     .optional()
     .default('https://api.biscoint.io/'),
+  apiTimeout: joi
+    .number()
+    .precision(0)
+    .default(DEFAULT_API_TIMEOUT_MS)
+    .optional(),
 });
 
 const tickerSchema = joi.object({
@@ -87,6 +93,7 @@ const confirmOfferSchema = joi.object({
  * @property {string} apiKey - Your Biscoint API Key
  * @property {string} apiSecret - Your Biscoint API Secret
  * @property {string} apiUrl - Biscoints API URL
+ * @property {number} apiTimeout - Biscoints API timeout in milliseconds
  */
 
 /**
@@ -258,6 +265,7 @@ class Biscoint {
       method,
       headers,
       data,
+      timeout: this.apiTimeout,
     };
 
     try {
