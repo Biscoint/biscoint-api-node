@@ -23,10 +23,10 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Lint
-        run: npm run lint lint
+        run: npm run lint src
 
       - name: Test
-        run: npm test --ci --coverage --maxWorkers=2
+        run: npm test
 
       - name: Build
         run: npm run build

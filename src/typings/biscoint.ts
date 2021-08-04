@@ -1,5 +1,12 @@
 export type OP = "buy" | "sell";
 
+export interface IConstructorParams {
+  apiKey?: string;
+  apiSecret?: string;
+  apiUrl?: string;
+  apiTimeout?: number;
+}
+
 export interface ITickerParams {
   base?: string;
   quote?: string;

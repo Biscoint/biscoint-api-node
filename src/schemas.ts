@@ -1,5 +1,7 @@
 import joi from "joi";
 
+const DEFAULT_API_TIMEOUT_MS = 5000;
+
 export const constructorSchema = joi.object({
   apiKey: joi.string().default(""),
   apiSecret: joi.string().default(""),
@@ -7,6 +9,11 @@ export const constructorSchema = joi.object({
     .string()
     .optional()
     .default("https://api.biscoint.io/"),
+  apiTimeout: joi
+    .number()
+    .precision(0)
+    .default(DEFAULT_API_TIMEOUT_MS)
+    .optional(),
 });
 
 export const tickerSchema = joi.object({

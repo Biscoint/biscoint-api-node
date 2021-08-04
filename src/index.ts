@@ -8,6 +8,7 @@ import {
   IBalanceResult,
   IConfirmOfferParams,
   IConfirmOfferResult,
+  IConstructorParams,
   IFeesResult,
   IMetaResult,
   IOfferParams,
@@ -44,12 +45,14 @@ class Biscoint {
   private apiKey!: string;
   private apiSecret!: string;
   private apiUrl!: string;
-  constructor(args = {}) {
+  private apiTimeout!: number;
+  constructor(args: IConstructorParams = {}) {
     Object.assign(this, joi.attempt(args, schemas.constructorSchema));
     this.usNonce = 0;
     this.nextCallDelay = 0;
   }
 
+  /* public api call */
   async ticker(args: ITickerParams = {}): Promise<ITickerResult> {
     const params = joi.attempt(args, schemas.tickerSchema);
 
@@ -57,21 +60,25 @@ class Biscoint {
     return data;
   }
 
+  /* public api call */
   async fees(): Promise<IFeesResult> {
     const { data } = await this.call("fees", null, "GET", false);
     return data;
   }
 
+  /* public api call */
   async meta(): Promise<IMetaResult> {
     const { data } = await this.call("meta", null, "GET", false);
     return data;
   }
 
+  /* private api call */
   async balance(): Promise<IBalanceResult> {
     const { data } = await this.call("balance", null, "POST", true);
     return data;
   }
 
+  /* private api call */
   async trades(
     args: ITradesParams = {}
   ): Promise<ITradesResult[] | IPaginatedTradesResult> {
@@ -81,6 +88,7 @@ class Biscoint {
     return data;
   }
 
+  /* private api call */
   async offer(args: IOfferParams): Promise<IOfferResult> {
     const params = joi.attempt(args, schemas.offerSchema);
 
@@ -88,6 +96,7 @@ class Biscoint {
     return data;
   }
 
+  /* private api call */
   async confirmOffer(args: IConfirmOfferParams): Promise<IConfirmOfferResult> {
     const params = joi.attempt(args, schemas.confirmOfferSchema);
 
@@ -151,6 +160,7 @@ class Biscoint {
       method,
       headers,
       data,
+      timeout: this.apiTimeout,
     };
 
     if (method === "GET" && params) {

@@ -14,7 +14,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
+    "test": "mocha -t 5000",
     "lint": "tsdx lint",
     "prepare": "tsdx build"
   },
@@ -40,6 +40,8 @@
     "@types/node": "^16.4.3",
     "tsdx": "^0.14.1",
     "tslib": "^2.3.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2"
   }
 }
