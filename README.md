@@ -1,8 +1,14 @@
 # Biscoint API Node
 
-NodeJS library for interacting with [Biscoint](https://biscoint.io)'s API. In order to call private methods, you'll need a Biscoint verified account to generate the API key and secret.
+🌎 This documentation is also available in the following languages: [PT-BR](/README-PTBR.md)
 
-Biscoint is a cryptocurrency marketplace that allows trading BTC in multiple brazilian exchanges with a single account.
+![TypeScript](https://badges.aleen42.com/src/typescript.svg)
+![Mocha](https://badges.aleen42.com/src/mocha.svg)
+![Node](https://badges.aleen42.com/src/node.svg)
+
+NodeJS library for interacting with [Biscoint](https://biscoint.io/docs/api)'s API. In order to call private methods, you'll need a Biscoint verified account to generate the API key and secret.
+
+Biscoint is a cryptocurrency marketplace that allows trading BTC and another assets in multiple exchanges with a single account.
 
 ## Example
 
@@ -339,3 +345,27 @@ Returns
 }
 
 ```
+
+
+# Testing
+
+Simple do the following steps
+
+1. Add the following environment variables to your terminal (replace with your own api key and secret)
+```bash
+API_URL='https://api.biscoint.io/' # tip: this can be null
+API_KEY='s4t0sh1n4k4m0t0'
+API_SECRET='s4t0sh1n4k4m0t0'
+```
+2. Run tests
+```bash
+npm run test
+```
+or
+```
+yarn test
+```
+
+# PRs are welcome!
+
+If you missed something and would like to see it here, don't be shy and create your first PR. Our recruiters are keeping an eye on those who contribute 👀.
