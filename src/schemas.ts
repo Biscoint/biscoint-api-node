@@ -56,6 +56,11 @@ export const getTradesSchema = joi.object({
 });
 
 export const offerSchema = joi.object({
+  base: joi
+    .string()
+    .default("BTC")
+    .optional(),
+
   amount: joi
     .number()
     .precision(8)

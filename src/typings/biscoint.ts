@@ -153,6 +153,8 @@ export interface IPaginatedTradesResult {
 }
 
 export interface IOfferParams {
+  /** base currency that you want to trade. ie: BTC */
+  base: string;
   /** amount that you want to trade */
   amount: string;
   /** operation */
@@ -165,6 +167,7 @@ export interface IOfferResult {
   offerId: string;
   base: string;
   quote: string;
+  op: OP;
   isQuote: boolean;
   baseAmount: string;
   quoteAmount: string;
@@ -182,6 +185,7 @@ export interface IConfirmOfferResult {
   offerId: string;
   base: boolean;
   quote: boolean;
+  op: OP;
   isQuote: boolean;
   baseAmount: string;
   quoteAmount: string;
