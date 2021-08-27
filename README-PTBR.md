@@ -1,26 +1,24 @@
 # Biscoint API Node
 
-🌎 This documentation is also available in the following languages: [PT-BR](/README-PTBR.md)
-
 ![TypeScript](https://badges.aleen42.com/src/typescript.svg)
 ![Mocha](https://badges.aleen42.com/src/mocha.svg)
 ![Node](https://badges.aleen42.com/src/node.svg)
 
-NodeJS library for interacting with [Biscoint](https://biscoint.io/docs/api)'s API. In order to call private methods, you'll need a Biscoint verified account to generate the API key and secret.
+Biblioteca NodeJS para interagir com a API do [Biscoint](https://biscoint.io/docs/api). Para chamar métodos privados, você precisará de uma conta verificada da Biscoint para gerar a chave e o segredo da API.
 
-Biscoint is a cryptocurrency marketplace that allows trading BTC and another assets in multiple exchanges with a single account.
+Biscoint é um marketplace que permite negociar BTC e outros ativos em várias exchanges com uma única conta.
 
-## Example
+## Exemplo
 
-Check out [biscoint-arbitrage-bot](https://github.com/Biscoint/biscoint-arbitrage-bot), for it showcases the use of many of the methods in this library in an arbitrage bot application.
+Veja o [biscoint-arbitrage-bot](https://github.com/Biscoint/biscoint-arbitrage-bot), pois mostra o uso de muitos dos métodos desta biblioteca em um robô de arbitragem real.
 
-## Install with NPM
+## Instale com NPM
 
 ```bash
   npm i biscoint-api-node
 ```
 
-## Install with Yarn
+## Instale com Yarn
 
 ```bash
   yarn add biscoint-api-node
@@ -28,13 +26,13 @@ Check out [biscoint-arbitrage-bot](https://github.com/Biscoint/biscoint-arbitrag
 
 ---
 
-Instantiate Biscoint class
+Instancie a classe Biscoint
 
 ```JavaScript
 import Biscoint from 'biscoint-api-node';
 
 
-// configure here with your keys for private calls, public calls don't need valid keys
+// configure aqui suas chaves, chamas públicas não precisam de chaves válidas
 const bc = new Biscoint({
   apiKey: 's4t0sh1n4k4m0t0',
   apiSecret: 's4t0sh1n4k4m0t0',
@@ -43,23 +41,23 @@ const bc = new Biscoint({
 
 ```
 
-Optionally, you can uncomment the apiTimeout line to specify the request timeout in milliseconds you want. If not specified the default timeout will be 5000ms.
+Opcionalmente, você pode descomentar a linha apiTimeout para especificar o tempo limite da solicitação (timeout) em milissegundos que você deseja. Se não for especificado, o tempo limite padrão será 5000ms.
 
-All methods return a Promise.
+Todos os métodos retornam uma _promise_.
 
-## Public methods
+## Métodos públicos
 
 ### Ticker
 
 ---
 
-Get Biscoint ticker
+Obtenha o ticker do Biscoint.
 
 ```JavaScript
 bc.ticker();
 ```
 
-Returns
+Retorno
 
 ```JavaScript
 {
@@ -83,13 +81,13 @@ Returns
 
 ---
 
-Get Biscoint fees
+Obtenha as taxas do Biscoint.
 
 ```JavaScript
 bc.fees();
 ```
 
-Returns
+Retorno
 
 ```JavaScript
 {
@@ -117,13 +115,13 @@ Returns
 
 ---
 
-Get Biscoint rate limit of your IP
+Obtenha o rate-limit para o seu IP.
 
 ```JavaScript
 bc.meta();
 ```
 
-Returns
+Retorno
 
 ```JavaScript
 {
@@ -201,19 +199,19 @@ Returns
 }
 ```
 
-## Private methods
+## Métodos privados
 
-### Balance
+### Saldo da conta
 
 ---
 
-Get your account balance
+Obtenha o saldo de sua conta.
 
 ```JavaScript
 bc.balance();
 ```
 
-Returns
+Retorno
 
 ```JavaScript
 {
@@ -222,17 +220,17 @@ Returns
 }
 ```
 
-### Offer
+### Obtenha uma nova Offer
 
 ---
 
-Request a new offer for amount, and side that you specify.
+Requisita uma nova _Offer_ para o tipo de operação e quantia que você especificar.
 
 ```JavaScript
 bc.offer({ amount: 0.01, isQuote: false, op: "buy" });
 ```
 
-Returns
+Retorno
 
 ```JavaScript
 {
@@ -250,17 +248,17 @@ Returns
 }
 ```
 
-### Confirm Offer
+### Confirme uma Offer
 
 ---
 
-Confirm offer passing an orderId
+Confirme a sua _offer_ informando o _offerId_
 
 ```JavaScript
 bc.confirmOffer({ offerId: "5d9s8w6d12"});
 ```
 
-Returns
+Retorno
 
 ```JavaScript
 {
@@ -278,17 +276,17 @@ Returns
 }
 ```
 
-### Get last trades
+### Obtenha os últimos trades
 
 ---
 
-Returns last 20 trades
+Retorna os últimos 20 trades
 
 ```JavaScript
 bc.trades({ op: 'sell' });
 ```
 
-Returns
+Retorno
 
 ```JavaScript
 [
@@ -309,17 +307,17 @@ Returns
 
 ```
 
-### Get last trades paginated
+### Obtenha os últimos trades com paginação
 
 ---
 
-Returns last 20 trades
+Retorna os últimos 20 trades
 
 ```JavaScript
 bc.trades({ page: 0, limit: 20 });
 ```
 
-Returns
+Retorno
 
 ```JavaScript
 {
@@ -347,17 +345,17 @@ Returns
 ```
 
 
-# Testing
+# Testando
 
-Simple do the following steps
+Simplesmente siga os seguintes passos
 
-1. Add the following environment variables to your terminal (replace with your own api key and secret)
+1. Adicione as seguintes variáveis de ambiente ao seu terminal (substitua por sua própria chave de API e secret)
 ```bash
-API_URL='https://api.biscoint.io/' # tip: this can be null
+API_URL='https://api.biscoint.io/' # dica: a url pode estar vazia
 API_KEY='s4t0sh1n4k4m0t0'
 API_SECRET='s4t0sh1n4k4m0t0'
 ```
-2. Run tests
+2. Execute os testes
 ```bash
 npm run test
 ```
@@ -366,6 +364,6 @@ or
 yarn test
 ```
 
-# PRs are welcome!
+# PRs são bem-vindas!
 
-If you missed something and would like to see it here, don't be shy and create your first PR. Our recruiters are keeping an eye on those who contribute 👀.
+Se você queria algo e gostaria de ver aqui, não seja tímido e crie sua primeira PR. Nossos recrutadores estão de olho em quem contribui 👀.
