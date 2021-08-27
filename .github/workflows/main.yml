@@ -7,6 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        max-parallel: 1
         node: ['10.x', '12.x', '14.x']
         os: [ubuntu-latest]
 
@@ -29,8 +30,8 @@ jobs:
         run: npm test
         env:
           API_URL: ${{ secrets.API_URL }}
-          API_KEY: ${{ secrets.API_URL }}
-          API_SECRET: ${{ secrets.API_URL }}
+          API_KEY: ${{ secrets.API_KEY }}
+          API_SECRET: ${{ secrets.API_SECRET }}
 
       - name: Build
         run: npm run build
