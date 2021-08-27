@@ -6,8 +6,8 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     strategy:
+      max-parallel: 1
       matrix:
-        max-parallel: 1
         node: ['10.x', '12.x', '14.x']
         os: [ubuntu-latest]
 
