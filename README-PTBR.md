@@ -364,6 +364,6 @@ or
 yarn test
 ```
 
-# PRs são bem-vindas!!
+# PRs são bem-vindas!
 
 Se você queria algo e gostaria de ver aqui, não seja tímido e crie sua primeira PR. Nossos recrutadores estão de olho em quem contribui 👀.
