@@ -22,7 +22,7 @@
     "printWidth": 80,
     "semi": true,
     "singleQuote": false,
-    "trailingComma": "es5"
+    "trailingComma": "all"
   },
   "module": "dist/biscoint-api-node.esm.js",
   "repository": {

@@ -80,7 +80,7 @@ class Biscoint {
 
   /* private api call */
   async trades(
-    args: ITradesParams = {}
+    args: ITradesParams = {},
   ): Promise<ITradesResult[] | IPaginatedTradesResult> {
     const params = joi.attempt(args, schemas.getTradesSchema);
 
@@ -130,7 +130,7 @@ class Biscoint {
     endpoint: string,
     params: { [key: string]: string } | null,
     method: Method = "GET",
-    addAuth?: boolean
+    addAuth?: boolean,
   ) {
     const headers: { [key: string]: string } = {
       "Content-Type": "application/json",
@@ -182,7 +182,7 @@ class Biscoint {
       if (method === "POST" && addAuth) {
         this.nextCallDelay = Math.max(
           this.nextCallDelay - GET_NONCE_DELAY_INC_MS,
-          0
+          0,
         );
       }
     }
