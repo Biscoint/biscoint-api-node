@@ -45,76 +45,38 @@ export interface IFeesResult {
   };
 }
 
+export interface IRateLimit {
+  type: 'public' | 'private';
+  rateLimit: {
+    windowMs: number;
+    maxRequests: number;
+    rate: string;
+  };
+};
+
 export interface IMetaResult {
   version: string;
   endpoints: {
     ticker: {
-      get: {
-        type: string;
-        rateLimit: {
-          windowMs: number;
-          maxRequests: number;
-          rate: string;
-        };
-      };
+      get: IRateLimit;
     };
     fees: {
-      get: {
-        type: string;
-        rateLimit: {
-          windowMs: number;
-          maxRequests: number;
-          rate: string;
-        };
-      };
+      get: IRateLimit;
     };
     meta: {
-      get: {
-        type: string;
-        rateLimit: {
-          windowMs: number;
-          maxRequests: number;
-          rate: string;
-        };
-      };
+      get: IRateLimit;
     };
     balance: {
-      get: {
-        type: string;
-        rateLimit: {
-          windowMs: number;
-          maxRequests: number;
-          rate: string;
-        };
-      };
+      post: IRateLimit;
     };
     offer: {
-      get: {
-        type: string;
-        rateLimit: {
-          windowMs: number;
-          maxRequests: number;
-          rate: string;
-        };
-      };
-      post: {
-        type: string;
-        rateLimit: {
-          windowMs: number;
-          maxRequests: number;
-          rate: string;
-        };
-      };
+      post: IRateLimit;
+    };
+    'offer/confirm': {
+      post: IRateLimit;
     };
     trades: {
-      get: {
-        type: string;
-        rateLimit: {
-          windowMs: number;
-          maxRequests: number;
-          rate: string;
-        };
-      };
+      post: IRateLimit;
     };
   };
 }
