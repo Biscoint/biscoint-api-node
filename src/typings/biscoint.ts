@@ -183,8 +183,8 @@ export interface IConfirmOfferParams {
 
 export interface IConfirmOfferResult {
   offerId: string;
-  base: boolean;
-  quote: boolean;
+  base: string;
+  quote: string;
   op: OP;
   isQuote: boolean;
   baseAmount: string;
