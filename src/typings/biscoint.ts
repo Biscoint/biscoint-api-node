@@ -46,13 +46,13 @@ export interface IFeesResult {
 }
 
 export interface IRateLimit {
-  type: 'public' | 'private';
+  type: "public" | "private";
   rateLimit: {
     windowMs: number;
     maxRequests: number;
     rate: string;
   };
-};
+}
 
 export interface IMetaResult {
   version: string;
@@ -72,7 +72,7 @@ export interface IMetaResult {
     offer: {
       post: IRateLimit;
     };
-    'offer/confirm': {
+    "offer/confirm": {
       post: IRateLimit;
     };
     trades: {

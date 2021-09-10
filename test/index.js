@@ -27,7 +27,7 @@ describe("public endpoints", () => {
       "bid",
       "bidQuoteAmountRef",
       "bidBaseAmountRef",
-      "timestamp"
+      "timestamp",
     );
     expect(ticker.base).to.be.equal(base);
     expect(ticker.quote).to.be.equal(quote);
@@ -71,7 +71,7 @@ describe("private endpoints", () => {
       "efPrice",
       "createdAt",
       "expiresAt",
-      "apiKeyId"
+      "apiKeyId",
     );
 
     expect(offer.base).to.eq("ETH");
@@ -106,7 +106,7 @@ describe("get and confirm offer test suit", () => {
       "efPrice",
       "createdAt",
       "confirmedAt",
-      "apiKeyId"
+      "apiKeyId",
     );
 
     expect(offer.base).to.be.eq(confirmOffer.base);
