@@ -41,6 +41,10 @@ export const getTradesSchema = joi.object({
     .valid("buy", "sell")
     .optional(),
 
+  base: joi
+    .string()
+    .optional(),
+
   length: joi
     .number()
     .default(10)

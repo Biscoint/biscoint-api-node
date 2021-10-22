@@ -91,6 +91,8 @@ export interface ITradesParams {
   op?: OP;
   length?: number;
   limit?: number;
+  /** if you want pagination, please indicate the base */
+  base?: string;
   /** if you want pagination, please indicate the page */
   page?: number;
 }

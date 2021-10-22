@@ -316,7 +316,7 @@ Returns
 Returns last 20 trades
 
 ```JavaScript
-bc.trades({ page: 0, limit: 20 });
+bc.trades({ page: 0, limit: 20, base: 'BTC' });
 ```
 
 Returns
