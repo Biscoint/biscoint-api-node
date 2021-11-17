@@ -136,7 +136,7 @@ class Biscoint {
       "Content-Type": "application/json",
     };
 
-    let data = null;
+    let data = undefined;
     let nonce = "0";
 
     const v1Endpoint = `v1/${endpoint}`;
@@ -153,6 +153,8 @@ class Biscoint {
         headers["BSCNT-APIKEY"] = this.apiKey;
         headers["BSCNT-SIGN"] = signedParams;
       }
+
+      data = JSON.parse(data);
     }
 
     const config: AxiosRequestConfig = {
