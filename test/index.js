@@ -78,12 +78,12 @@ describe("private endpoints", () => {
   });
 });
 
-describe("get and confirm offer test suit", () => {
+describe("ETH get and confirm offer test suit", () => {
   let offer;
 
   before(async () => {
     offer = await api.offer({
-      base,
+      base: "ETH",
       amount: 50,
       isQuote: true,
       op: "buy",
@@ -115,7 +115,44 @@ describe("get and confirm offer test suit", () => {
   });
 });
 
-describe.only("[user request] proper precision working", async () => {
+describe("BTC get and confirm offer test suit", () => {
+  let offer;
+
+  before(async () => {
+    offer = await api.offer({
+      base: "BTC",
+      amount: 50,
+      isQuote: true,
+      op: "buy",
+    });
+  });
+
+  it("confirm offer", async () => {
+    const confirmOffer = await api.confirmOffer({
+      offerId: offer.offerId,
+    });
+
+    expect(confirmOffer).to.have.all.keys(
+      "offerId",
+      "base",
+      "quote",
+      "op",
+      "isQuote",
+      "baseAmount",
+      "quoteAmount",
+      "efPrice",
+      "createdAt",
+      "confirmedAt",
+      "apiKeyId",
+    );
+
+    expect(offer.base).to.be.eq(confirmOffer.base);
+    expect(offer.baseAmount).to.be.eq(confirmOffer.baseAmount);
+    expect(offer.quoteAmount).to.be.eq(confirmOffer.quoteAmount);
+  });
+});
+
+describe("[user request] proper float precision working", async () => {
   let baseAmount;
   it("buying precision", async () => {
     const buyOffer = await api.offer({
