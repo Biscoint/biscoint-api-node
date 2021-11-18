@@ -78,12 +78,12 @@ describe("private endpoints", () => {
   });
 });
 
-describe("get and confirm offer test suit", () => {
+describe("ETH get and confirm offer test suit", () => {
   let offer;
 
   before(async () => {
     offer = await api.offer({
-      base,
+      base: "ETH",
       amount: 50,
       isQuote: true,
       op: "buy",
@@ -112,5 +112,83 @@ describe("get and confirm offer test suit", () => {
     expect(offer.base).to.be.eq(confirmOffer.base);
     expect(offer.baseAmount).to.be.eq(confirmOffer.baseAmount);
     expect(offer.quoteAmount).to.be.eq(confirmOffer.quoteAmount);
+  });
+});
+
+describe("BTC get and confirm offer test suit", () => {
+  let offer;
+
+  before(async () => {
+    offer = await api.offer({
+      base: "BTC",
+      amount: 50,
+      isQuote: true,
+      op: "buy",
+    });
+  });
+
+  it("confirm offer", async () => {
+    const confirmOffer = await api.confirmOffer({
+      offerId: offer.offerId,
+    });
+
+    expect(confirmOffer).to.have.all.keys(
+      "offerId",
+      "base",
+      "quote",
+      "op",
+      "isQuote",
+      "baseAmount",
+      "quoteAmount",
+      "efPrice",
+      "createdAt",
+      "confirmedAt",
+      "apiKeyId",
+    );
+
+    expect(offer.base).to.be.eq(confirmOffer.base);
+    expect(offer.baseAmount).to.be.eq(confirmOffer.baseAmount);
+    expect(offer.quoteAmount).to.be.eq(confirmOffer.quoteAmount);
+  });
+});
+
+describe("[user request] proper float precision working", async () => {
+  let baseAmount;
+  it("buying precision", async () => {
+    const buyOffer = await api.offer({
+      base: "ETH",
+      amount: "2000",
+      op: "buy",
+      isQuote: true,
+    });
+    const buyConfirm = await api.confirmOffer({ offerId: buyOffer.offerId });
+  
+    baseAmount = buyConfirm.baseAmount;
+
+    expect(buyOffer.baseAmount).to.be.eq(buyConfirm.baseAmount);
+    
+    expect(buyOffer.baseAmount).to.match(/^\d+(\.\d{12})?$/);
+    expect(buyConfirm.baseAmount).to.match(/^\d+(\.\d{12})?$/);
+
+    expect(buyOffer.baseAmount).not.to.match(/[0]{4}$/);
+    expect(buyConfirm.baseAmount).not.to.match(/[0]{4}$/);
+  });
+
+  it("selling precision", async () => {
+    const sellOffer = await api.offer({
+      base: "ETH",
+      amount: baseAmount,
+      op: "sell",
+      isQuote: false,
+    });
+    const sellConfirm = await api.confirmOffer({ offerId: sellOffer.offerId });
+
+    expect(sellOffer.baseAmount).to.be.eq(sellConfirm.baseAmount);
+
+    expect(sellOffer.baseAmount).to.match(/^\d+(\.\d{12})?$/);
+    expect(sellConfirm.baseAmount).to.match(/^\d+(\.\d{12})?$/);
+
+    expect(sellOffer.baseAmount).not.to.match(/[0]{4}$/);
+    expect(sellConfirm.baseAmount).not.to.match(/[0]{4}$/);
   });
 });

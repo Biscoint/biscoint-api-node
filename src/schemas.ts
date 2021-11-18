@@ -63,7 +63,7 @@ export const offerSchema = joi.object({
 
   amount: joi
     .number()
-    .precision(8)
+    .precision(12)
     .cast("string")
     .required(),
 
