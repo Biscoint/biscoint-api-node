@@ -161,9 +161,7 @@ describe("[user request] proper float precision working", async () => {
       op: "buy",
       isQuote: true,
     });
-    console.log(`Buy offer base amount: ${buyOffer.baseAmount}`);
     const buyConfirm = await api.confirmOffer({ offerId: buyOffer.offerId });
-    console.log(`Buy confirm base amount: ${buyConfirm.baseAmount}`);
   
     baseAmount = buyConfirm.baseAmount;
 
@@ -183,9 +181,7 @@ describe("[user request] proper float precision working", async () => {
       op: "sell",
       isQuote: false,
     });
-    console.log(`Sell offer base amount: ${sellOffer.baseAmount}`);
     const sellConfirm = await api.confirmOffer({ offerId: sellOffer.offerId });
-    console.log(`Sell confirm base amount: ${sellConfirm.baseAmount}`);
 
     expect(sellOffer.baseAmount).to.be.eq(sellConfirm.baseAmount);
 
