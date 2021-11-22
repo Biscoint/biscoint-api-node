@@ -267,4 +267,10 @@ describe("[user request] proper float precision working", async () => {
     expect(sellOffer.baseAmount).to.match(/^\d+(\.\d{12})?$/);
     expect(sellConfirm.baseAmount).to.match(/^\d+(\.\d{12})?$/);
   });
+
+  it.only("[Date typing on user demand] Verifies the type of trades' dates", async () => {
+    const trades = await api.trades();
+    
+    expect(new Date(trades[0].date).toISOString()).to.be.equal(trades[0].date);
+  });
 });
