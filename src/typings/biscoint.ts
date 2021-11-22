@@ -105,7 +105,7 @@ export interface ITradesResult {
   quoteAmount: string;
   apiKeyId: string;
   efPrice: string;
-  date: string;
+  date: Date;
 }
 
 export interface IPaginatedTradesResult {
