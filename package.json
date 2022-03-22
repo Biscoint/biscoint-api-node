@@ -28,7 +28,7 @@
     "lint": "eslint . --ext .ts",
     "checks": "npm test && npm run lint",
     "refresh": "npm run clean && npm ci",
-    "clean": "git clean -fX .eslintcache docs/build/ lib/ typings/"
+    "clean": "git clean -fX .eslintcache lib/ typings/"
   },
   "type": "commonjs",
   "engines": {
