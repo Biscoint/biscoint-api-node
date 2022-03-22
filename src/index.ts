@@ -1,9 +1,5 @@
-import axios, { AxiosRequestConfig, Method } from "axios";
-import createHmac from "crypto-js/hmac-sha384";
-import joi from "joi";
-import BigNumber from "bignumber.js";
 import * as schemas from "./schemas";
-import "tslib";
+import Axios, { AxiosRequestConfig, Method } from "axios";
 import {
   IBalanceResult,
   IConfirmOfferParams,
@@ -19,6 +15,9 @@ import {
   ITradesParams,
   ITradesResult,
 } from "./typings/biscoint";
+import BigNumber from "bignumber.js";
+import createHmac from "crypto-js/hmac-sha384";
+import joi from "joi";
 
 function resolve(from: string, to: string) {
   const resolvedUrl = new URL(to, new URL(from, "resolve://"));
@@ -52,7 +51,14 @@ class Biscoint {
     this.nextCallDelay = 0;
   }
 
-  /* public api call */
+  /**
+   * Get current Biscoint Ticker
+   *
+   * is a public call
+   *
+   * See this link for the full tutorial
+   * https://biscoint.io/docs/api#public-ticker
+   */
   async ticker(args: ITickerParams = {}): Promise<ITickerResult> {
     const params = joi.attempt(args, schemas.tickerSchema);
 
@@ -60,25 +66,53 @@ class Biscoint {
     return data;
   }
 
-  /* public api call */
+  /**
+   * Get current Biscoint Fees
+   *
+   * is a public call
+   *
+   * See this link for the full tutorial
+   * https://biscoint.io/docs/api#public-fees
+   */
   async fees(): Promise<IFeesResult> {
     const { data } = await this.call("fees", null, "GET", false);
     return data;
   }
 
-  /* public api call */
+  /**
+   * Get current Biscoint Meta
+   *
+   * is a public call
+   *
+   * See this link for the full tutorial
+   * https://biscoint.io/docs/api#public-meta
+   */
   async meta(): Promise<IMetaResult> {
     const { data } = await this.call("meta", null, "GET", false);
     return data;
   }
 
-  /* private api call */
+  /**
+   * Get your Biscoint account balances
+   *
+   * is a private call
+   *
+   * See this link for the full tutorial
+   * https://biscoint.io/docs/api#private-balance
+   */
   async balance(): Promise<IBalanceResult> {
     const { data } = await this.call("balance", null, "POST", true);
     return data;
   }
 
-  /* private api call */
+  /**
+   * Get your Biscoint account trades
+   *
+   * is a private call
+   *
+   * See this link for the full tutorial
+   * https://biscoint.io/docs/api#private-trades
+   */
   async trades(
     args: ITradesParams = {},
   ): Promise<ITradesResult[] | IPaginatedTradesResult> {
@@ -88,7 +122,14 @@ class Biscoint {
     return data;
   }
 
-  /* private api call */
+  /**
+   * Request a new offer
+   *
+   * is a private call
+   *
+   * See this link for the full tutorial
+   * https://biscoint.io/docs/api#private-getoffer
+   */
   async offer(args: IOfferParams): Promise<IOfferResult> {
     const params = joi.attempt(args, schemas.offerSchema);
 
@@ -96,7 +137,14 @@ class Biscoint {
     return data;
   }
 
-  /* private api call */
+  /**
+   * Confirm offer
+   *
+   * is a private call
+   *
+   * See this link for the full tutorial
+   * https://biscoint.io/docs/api#private-confirmoffer
+   */
   async confirmOffer(args: IConfirmOfferParams): Promise<IConfirmOfferResult> {
     const params = joi.attempt(args, schemas.confirmOfferSchema);
 
@@ -119,7 +167,7 @@ class Biscoint {
     });
   }
 
-  private sign(endpoint: string, nonce: string, data: any) {
+  private sign(endpoint: string, nonce: string, data: string) {
     const strToBeSigned = `v1/${endpoint}${nonce}${data}`;
     const hashBuffer = Buffer.from(strToBeSigned).toString("base64");
 
@@ -140,7 +188,7 @@ class Biscoint {
     let nonce = "0";
 
     const v1Endpoint = `v1/${endpoint}`;
-    let url = resolve(this.apiUrl, v1Endpoint);
+    const url = resolve(this.apiUrl, v1Endpoint);
 
     if (method === "POST") {
       params = params || {};
@@ -170,16 +218,14 @@ class Biscoint {
     }
 
     try {
-      const { data } = await axios(config);
+      const { data } = await Axios(config);
       return data;
     } catch (error) {
-      if (error.response?.data) {
-        if (error.response.data.message) {
-          throw error.response.data.message;
-        }
-        throw error.response.data;
+      if (Axios.isAxiosError(error)) {
+        throw error.response?.data?.message ?? error.response?.data ?? error;
+      } else {
+        throw error;
       }
-      throw error;
     } finally {
       if (method === "POST" && addAuth) {
         this.nextCallDelay = Math.max(

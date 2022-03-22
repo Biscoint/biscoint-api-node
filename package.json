@@ -1,34 +1,40 @@
 {
   "name": "biscoint-api-node",
-  "license": "MIT",
   "version": "1.4.2",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
-  "engines": {
-    "node": ">=10"
-  },
-  "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "mocha -t 5000",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": false,
-    "trailingComma": "all"
-  },
-  "module": "dist/biscoint-api-node.esm.js",
+  "description": "Library for interacting with Biscoint API",
+  "license": "MIT",
+  "homepage": "https://github.com/Biscoint/biscoint-api-node",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Biscoint/biscoint-api-node"
+    "url": "git+ssh://git@github.com/Biscoint/biscoint-api-node.git"
   },
+  "bugs": {
+    "url": "https://github.com/Biscoint/biscoint-api-node/issues"
+  },
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js"
+  },
+  "files": [
+    "src/**/*.ts",
+    "lib/**/*.js",
+    "typings/**/*.d.ts",
+    "typings/**/*.d.ts.map"
+  ],
+  "scripts": {
+    "prepare": "npm run --silent build",
+    "build": "tsc --build",
+    "test": "mocha -t 5000",
+    "lint": "eslint . --ext .ts",
+    "checks": "npm test && npm run lint",
+    "refresh": "npm run clean && npm ci",
+    "clean": "git clean -fX .eslintcache docs/build/ lib/ typings/"
+  },
+  "type": "commonjs",
+  "engines": {
+    "node": "^12.20.0 || >=14.13.1"
+  },
+  "types": "./typings/index.d.ts",
   "dependencies": {
     "axios": "^0.21.2",
     "bignumber.js": "^9.0.1",
@@ -38,10 +44,14 @@
   "devDependencies": {
     "@types/crypto-js": "^4.0.2",
     "@types/node": "^16.4.3",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.3.0",
-    "typescript": "^4.3.5",
     "chai": "^4.3.4",
-    "mocha": "^8.3.2"
-  }
+    "mocha": "^8.3.2",
+    "typescript": "^4.3.5"
+  },
+  "keywords": [
+    "biscoint",
+    "bitcoin",
+    "api",
+    "trade"
+  ]
 }

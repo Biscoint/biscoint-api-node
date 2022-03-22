@@ -1,16 +1,55 @@
+/**
+ * operation type
+ */
 export type OP = "buy" | "sell";
 
+/**
+ * Biscoint constructor arguments
+ */
 export interface IConstructorParams {
+  /**
+   * your api key
+   *
+   * public methods don't need this
+   */
   apiKey?: string;
+  /**
+   * your api secret
+   *
+   * public methods don't need this
+   */
   apiSecret?: string;
+  /**
+   * biscoint api url
+   * @default https://api.biscoint.io/
+   */
   apiUrl?: string;
+  /**
+   * api timeout in ms
+   * @default 5000
+   */
   apiTimeout?: number;
 }
 
 export interface ITickerParams {
+  /**
+   * currency base
+   *
+   * @example BTC
+   */
   base?: string;
+  /**
+   * currency base
+   *
+   * @example BRL
+   */
   quote?: string;
-  amount?: 1000;
+  /**
+   * desired amount
+   *
+   * @example BRL
+   */
+  amount?: number;
 }
 
 export interface ITickerResult {
