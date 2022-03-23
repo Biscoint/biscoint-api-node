@@ -1,6 +1,6 @@
 {
   "name": "biscoint-api-node",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Library for interacting with Biscoint API",
   "license": "MIT",
   "homepage": "https://github.com/Biscoint/biscoint-api-node",
